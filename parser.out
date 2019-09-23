@@ -4,7 +4,6 @@ Unused terminals:
 
     DIVIDE
     FOR
-    IMPORT
     MINUS
     PLUS
     TIMES
@@ -14,40 +13,44 @@ Grammar
 
 Rule 0     S' -> program
 Rule 1     program -> COMMENT block
-Rule 2     block -> varAssign procedureDeclare statement
-Rule 3     varAssign -> DECLARE varAssignList SEMMICOLOM varAssign
-Rule 4     varAssign -> empty
-Rule 5     varAssignList -> ID ASSIGN NUMBER
-Rule 6     varAssignList -> varAssignList COMMA ID ASSIGN NUMBER
-Rule 7     procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare
-Rule 8     procedureDeclare -> empty
-Rule 9     statement -> CALL ID LPAREN RPAREN
-Rule 10    statement -> BEGIN statementList END
-Rule 11    statement -> empty
-Rule 12    statementList -> statement
-Rule 13    statementList -> statementList SEMMICOLOM statement
-Rule 14    empty -> <empty>
+Rule 2     block -> importDeclare varAssign procedureDeclare statement
+Rule 3     importDeclare -> IMPORT importDeclareList SEMMICOLOM importDeclare
+Rule 4     importDeclare -> empty
+Rule 5     importDeclareList -> ID
+Rule 6     importDeclareList -> importDeclareList COMMA ID
+Rule 7     varAssign -> DECLARE varAssignList SEMMICOLOM varAssign
+Rule 8     varAssign -> empty
+Rule 9     varAssignList -> ID ASSIGN NUMBER
+Rule 10    varAssignList -> varAssignList COMMA ID ASSIGN NUMBER
+Rule 11    procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare
+Rule 12    procedureDeclare -> empty
+Rule 13    statement -> CALL ID LPAREN RPAREN
+Rule 14    statement -> BEGIN statementList END
+Rule 15    statement -> empty
+Rule 16    statementList -> statement
+Rule 17    statementList -> statementList SEMMICOLOM statement
+Rule 18    empty -> <empty>
 
 Terminals, with rules where they appear
 
-ASSIGN               : 5 6
-BEGIN                : 10
-CALL                 : 9
-COMMA                : 6
+ASSIGN               : 9 10
+BEGIN                : 14
+CALL                 : 13
+COMMA                : 6 10
 COMMENT              : 1
-DECLARE              : 3
+DECLARE              : 7
 DIVIDE               : 
-END                  : 10
+END                  : 14
 FOR                  : 
-ID                   : 5 6 7 9
-IMPORT               : 
-LPAREN               : 7 9
+ID                   : 5 6 9 10 11 13
+IMPORT               : 3
+LPAREN               : 11 13
 MINUS                : 
-NUMBER               : 5 6
+NUMBER               : 9 10
 PLUS                 : 
-PROCEDURE            : 7
-RPAREN               : 7 9
-SEMMICOLOM           : 3 7 13
+PROCEDURE            : 11
+RPAREN               : 11 13
+SEMMICOLOM           : 3 7 11 17
 TIMES                : 
 UPDATE               : 
 error                : 
@@ -55,13 +58,15 @@ error                :
 Nonterminals, with rules where they appear
 
 block                : 1
-empty                : 4 8 11
-procedureDeclare     : 2 7
+empty                : 4 8 12 15
+importDeclare        : 2 3
+importDeclareList    : 3 6
+procedureDeclare     : 2 11
 program              : 0
-statement            : 2 7 12 13
-statementList        : 10 13
-varAssign            : 2 3
-varAssignList        : 3 6
+statement            : 2 11 16 17
+statementList        : 14 17
+varAssign            : 2 7
+varAssignList        : 7 10
 
 Parsing method: LALR
 
@@ -83,19 +88,20 @@ state 1
 state 2
 
     (1) program -> COMMENT . block
-    (2) block -> . varAssign procedureDeclare statement
-    (3) varAssign -> . DECLARE varAssignList SEMMICOLOM varAssign
-    (4) varAssign -> . empty
-    (14) empty -> .
+    (2) block -> . importDeclare varAssign procedureDeclare statement
+    (3) importDeclare -> . IMPORT importDeclareList SEMMICOLOM importDeclare
+    (4) importDeclare -> . empty
+    (18) empty -> .
 
-    DECLARE         shift and go to state 5
-    PROCEDURE       reduce using rule 14 (empty -> .)
-    CALL            reduce using rule 14 (empty -> .)
-    BEGIN           reduce using rule 14 (empty -> .)
-    $end            reduce using rule 14 (empty -> .)
+    IMPORT          shift and go to state 5
+    DECLARE         reduce using rule 18 (empty -> .)
+    PROCEDURE       reduce using rule 18 (empty -> .)
+    CALL            reduce using rule 18 (empty -> .)
+    BEGIN           reduce using rule 18 (empty -> .)
+    $end            reduce using rule 18 (empty -> .)
 
     block                          shift and go to state 3
-    varAssign                      shift and go to state 4
+    importDeclare                  shift and go to state 4
     empty                          shift and go to state 6
 
 state 3
@@ -107,74 +113,80 @@ state 3
 
 state 4
 
-    (2) block -> varAssign . procedureDeclare statement
-    (7) procedureDeclare -> . PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare
-    (8) procedureDeclare -> . empty
-    (14) empty -> .
+    (2) block -> importDeclare . varAssign procedureDeclare statement
+    (7) varAssign -> . DECLARE varAssignList SEMMICOLOM varAssign
+    (8) varAssign -> . empty
+    (18) empty -> .
 
-    PROCEDURE       shift and go to state 8
-    CALL            reduce using rule 14 (empty -> .)
-    BEGIN           reduce using rule 14 (empty -> .)
-    $end            reduce using rule 14 (empty -> .)
+    DECLARE         shift and go to state 8
+    PROCEDURE       reduce using rule 18 (empty -> .)
+    CALL            reduce using rule 18 (empty -> .)
+    BEGIN           reduce using rule 18 (empty -> .)
+    $end            reduce using rule 18 (empty -> .)
 
-    procedureDeclare               shift and go to state 7
+    varAssign                      shift and go to state 7
     empty                          shift and go to state 9
 
 state 5
 
-    (3) varAssign -> DECLARE . varAssignList SEMMICOLOM varAssign
-    (5) varAssignList -> . ID ASSIGN NUMBER
-    (6) varAssignList -> . varAssignList COMMA ID ASSIGN NUMBER
+    (3) importDeclare -> IMPORT . importDeclareList SEMMICOLOM importDeclare
+    (5) importDeclareList -> . ID
+    (6) importDeclareList -> . importDeclareList COMMA ID
 
     ID              shift and go to state 11
 
-    varAssignList                  shift and go to state 10
+    importDeclareList              shift and go to state 10
 
 state 6
 
-    (4) varAssign -> empty .
+    (4) importDeclare -> empty .
 
-    PROCEDURE       reduce using rule 4 (varAssign -> empty .)
-    CALL            reduce using rule 4 (varAssign -> empty .)
-    BEGIN           reduce using rule 4 (varAssign -> empty .)
-    $end            reduce using rule 4 (varAssign -> empty .)
+    DECLARE         reduce using rule 4 (importDeclare -> empty .)
+    PROCEDURE       reduce using rule 4 (importDeclare -> empty .)
+    CALL            reduce using rule 4 (importDeclare -> empty .)
+    BEGIN           reduce using rule 4 (importDeclare -> empty .)
+    $end            reduce using rule 4 (importDeclare -> empty .)
 
 
 state 7
 
-    (2) block -> varAssign procedureDeclare . statement
-    (9) statement -> . CALL ID LPAREN RPAREN
-    (10) statement -> . BEGIN statementList END
-    (11) statement -> . empty
-    (14) empty -> .
+    (2) block -> importDeclare varAssign . procedureDeclare statement
+    (11) procedureDeclare -> . PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare
+    (12) procedureDeclare -> . empty
+    (18) empty -> .
 
-    CALL            shift and go to state 13
-    BEGIN           shift and go to state 14
-    $end            reduce using rule 14 (empty -> .)
+    PROCEDURE       shift and go to state 13
+    CALL            reduce using rule 18 (empty -> .)
+    BEGIN           reduce using rule 18 (empty -> .)
+    $end            reduce using rule 18 (empty -> .)
 
-    statement                      shift and go to state 12
-    empty                          shift and go to state 15
+    procedureDeclare               shift and go to state 12
+    empty                          shift and go to state 14
 
 state 8
 
-    (7) procedureDeclare -> PROCEDURE . ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare
+    (7) varAssign -> DECLARE . varAssignList SEMMICOLOM varAssign
+    (9) varAssignList -> . ID ASSIGN NUMBER
+    (10) varAssignList -> . varAssignList COMMA ID ASSIGN NUMBER
 
     ID              shift and go to state 16
 
+    varAssignList                  shift and go to state 15
 
 state 9
 
-    (8) procedureDeclare -> empty .
+    (8) varAssign -> empty .
 
-    CALL            reduce using rule 8 (procedureDeclare -> empty .)
-    BEGIN           reduce using rule 8 (procedureDeclare -> empty .)
-    $end            reduce using rule 8 (procedureDeclare -> empty .)
+    PROCEDURE       reduce using rule 8 (varAssign -> empty .)
+    CALL            reduce using rule 8 (varAssign -> empty .)
+    BEGIN           reduce using rule 8 (varAssign -> empty .)
+    $end            reduce using rule 8 (varAssign -> empty .)
 
 
 state 10
 
-    (3) varAssign -> DECLARE varAssignList . SEMMICOLOM varAssign
-    (6) varAssignList -> varAssignList . COMMA ID ASSIGN NUMBER
+    (3) importDeclare -> IMPORT importDeclareList . SEMMICOLOM importDeclare
+    (6) importDeclareList -> importDeclareList . COMMA ID
 
     SEMMICOLOM      shift and go to state 17
     COMMA           shift and go to state 18
@@ -182,252 +194,343 @@ state 10
 
 state 11
 
-    (5) varAssignList -> ID . ASSIGN NUMBER
+    (5) importDeclareList -> ID .
 
-    ASSIGN          shift and go to state 19
+    SEMMICOLOM      reduce using rule 5 (importDeclareList -> ID .)
+    COMMA           reduce using rule 5 (importDeclareList -> ID .)
 
 
 state 12
 
-    (2) block -> varAssign procedureDeclare statement .
+    (2) block -> importDeclare varAssign procedureDeclare . statement
+    (13) statement -> . CALL ID LPAREN RPAREN
+    (14) statement -> . BEGIN statementList END
+    (15) statement -> . empty
+    (18) empty -> .
 
-    $end            reduce using rule 2 (block -> varAssign procedureDeclare statement .)
+    CALL            shift and go to state 20
+    BEGIN           shift and go to state 21
+    $end            reduce using rule 18 (empty -> .)
 
+    statement                      shift and go to state 19
+    empty                          shift and go to state 22
 
 state 13
 
-    (9) statement -> CALL . ID LPAREN RPAREN
+    (11) procedureDeclare -> PROCEDURE . ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare
 
-    ID              shift and go to state 20
+    ID              shift and go to state 23
 
 
 state 14
 
-    (10) statement -> BEGIN . statementList END
-    (12) statementList -> . statement
-    (13) statementList -> . statementList SEMMICOLOM statement
-    (9) statement -> . CALL ID LPAREN RPAREN
-    (10) statement -> . BEGIN statementList END
-    (11) statement -> . empty
-    (14) empty -> .
+    (12) procedureDeclare -> empty .
 
-    CALL            shift and go to state 13
-    BEGIN           shift and go to state 14
-    END             reduce using rule 14 (empty -> .)
-    SEMMICOLOM      reduce using rule 14 (empty -> .)
+    CALL            reduce using rule 12 (procedureDeclare -> empty .)
+    BEGIN           reduce using rule 12 (procedureDeclare -> empty .)
+    $end            reduce using rule 12 (procedureDeclare -> empty .)
 
-    statementList                  shift and go to state 21
-    statement                      shift and go to state 22
-    empty                          shift and go to state 15
 
 state 15
 
-    (11) statement -> empty .
+    (7) varAssign -> DECLARE varAssignList . SEMMICOLOM varAssign
+    (10) varAssignList -> varAssignList . COMMA ID ASSIGN NUMBER
 
-    $end            reduce using rule 11 (statement -> empty .)
-    END             reduce using rule 11 (statement -> empty .)
-    SEMMICOLOM      reduce using rule 11 (statement -> empty .)
+    SEMMICOLOM      shift and go to state 24
+    COMMA           shift and go to state 25
 
 
 state 16
 
-    (7) procedureDeclare -> PROCEDURE ID . LPAREN RPAREN statement SEMMICOLOM procedureDeclare
+    (9) varAssignList -> ID . ASSIGN NUMBER
 
-    LPAREN          shift and go to state 23
+    ASSIGN          shift and go to state 26
 
 
 state 17
 
-    (3) varAssign -> DECLARE varAssignList SEMMICOLOM . varAssign
-    (3) varAssign -> . DECLARE varAssignList SEMMICOLOM varAssign
-    (4) varAssign -> . empty
-    (14) empty -> .
+    (3) importDeclare -> IMPORT importDeclareList SEMMICOLOM . importDeclare
+    (3) importDeclare -> . IMPORT importDeclareList SEMMICOLOM importDeclare
+    (4) importDeclare -> . empty
+    (18) empty -> .
 
-    DECLARE         shift and go to state 5
-    PROCEDURE       reduce using rule 14 (empty -> .)
-    CALL            reduce using rule 14 (empty -> .)
-    BEGIN           reduce using rule 14 (empty -> .)
-    $end            reduce using rule 14 (empty -> .)
+    IMPORT          shift and go to state 5
+    DECLARE         reduce using rule 18 (empty -> .)
+    PROCEDURE       reduce using rule 18 (empty -> .)
+    CALL            reduce using rule 18 (empty -> .)
+    BEGIN           reduce using rule 18 (empty -> .)
+    $end            reduce using rule 18 (empty -> .)
 
-    varAssign                      shift and go to state 24
+    importDeclare                  shift and go to state 27
     empty                          shift and go to state 6
 
 state 18
 
-    (6) varAssignList -> varAssignList COMMA . ID ASSIGN NUMBER
+    (6) importDeclareList -> importDeclareList COMMA . ID
 
-    ID              shift and go to state 25
+    ID              shift and go to state 28
 
 
 state 19
 
-    (5) varAssignList -> ID ASSIGN . NUMBER
+    (2) block -> importDeclare varAssign procedureDeclare statement .
 
-    NUMBER          shift and go to state 26
+    $end            reduce using rule 2 (block -> importDeclare varAssign procedureDeclare statement .)
 
 
 state 20
 
-    (9) statement -> CALL ID . LPAREN RPAREN
+    (13) statement -> CALL . ID LPAREN RPAREN
 
-    LPAREN          shift and go to state 27
+    ID              shift and go to state 29
 
 
 state 21
 
-    (10) statement -> BEGIN statementList . END
-    (13) statementList -> statementList . SEMMICOLOM statement
+    (14) statement -> BEGIN . statementList END
+    (16) statementList -> . statement
+    (17) statementList -> . statementList SEMMICOLOM statement
+    (13) statement -> . CALL ID LPAREN RPAREN
+    (14) statement -> . BEGIN statementList END
+    (15) statement -> . empty
+    (18) empty -> .
 
-    END             shift and go to state 28
-    SEMMICOLOM      shift and go to state 29
+    CALL            shift and go to state 20
+    BEGIN           shift and go to state 21
+    END             reduce using rule 18 (empty -> .)
+    SEMMICOLOM      reduce using rule 18 (empty -> .)
 
+    statementList                  shift and go to state 30
+    statement                      shift and go to state 31
+    empty                          shift and go to state 22
 
 state 22
 
-    (12) statementList -> statement .
+    (15) statement -> empty .
 
-    END             reduce using rule 12 (statementList -> statement .)
-    SEMMICOLOM      reduce using rule 12 (statementList -> statement .)
+    $end            reduce using rule 15 (statement -> empty .)
+    END             reduce using rule 15 (statement -> empty .)
+    SEMMICOLOM      reduce using rule 15 (statement -> empty .)
 
 
 state 23
 
-    (7) procedureDeclare -> PROCEDURE ID LPAREN . RPAREN statement SEMMICOLOM procedureDeclare
+    (11) procedureDeclare -> PROCEDURE ID . LPAREN RPAREN statement SEMMICOLOM procedureDeclare
 
-    RPAREN          shift and go to state 30
+    LPAREN          shift and go to state 32
 
 
 state 24
 
-    (3) varAssign -> DECLARE varAssignList SEMMICOLOM varAssign .
+    (7) varAssign -> DECLARE varAssignList SEMMICOLOM . varAssign
+    (7) varAssign -> . DECLARE varAssignList SEMMICOLOM varAssign
+    (8) varAssign -> . empty
+    (18) empty -> .
 
-    PROCEDURE       reduce using rule 3 (varAssign -> DECLARE varAssignList SEMMICOLOM varAssign .)
-    CALL            reduce using rule 3 (varAssign -> DECLARE varAssignList SEMMICOLOM varAssign .)
-    BEGIN           reduce using rule 3 (varAssign -> DECLARE varAssignList SEMMICOLOM varAssign .)
-    $end            reduce using rule 3 (varAssign -> DECLARE varAssignList SEMMICOLOM varAssign .)
+    DECLARE         shift and go to state 8
+    PROCEDURE       reduce using rule 18 (empty -> .)
+    CALL            reduce using rule 18 (empty -> .)
+    BEGIN           reduce using rule 18 (empty -> .)
+    $end            reduce using rule 18 (empty -> .)
 
+    varAssign                      shift and go to state 33
+    empty                          shift and go to state 9
 
 state 25
 
-    (6) varAssignList -> varAssignList COMMA ID . ASSIGN NUMBER
+    (10) varAssignList -> varAssignList COMMA . ID ASSIGN NUMBER
 
-    ASSIGN          shift and go to state 31
+    ID              shift and go to state 34
 
 
 state 26
 
-    (5) varAssignList -> ID ASSIGN NUMBER .
-
-    SEMMICOLOM      reduce using rule 5 (varAssignList -> ID ASSIGN NUMBER .)
-    COMMA           reduce using rule 5 (varAssignList -> ID ASSIGN NUMBER .)
-
-
-state 27
-
-    (9) statement -> CALL ID LPAREN . RPAREN
-
-    RPAREN          shift and go to state 32
-
-
-state 28
-
-    (10) statement -> BEGIN statementList END .
-
-    $end            reduce using rule 10 (statement -> BEGIN statementList END .)
-    END             reduce using rule 10 (statement -> BEGIN statementList END .)
-    SEMMICOLOM      reduce using rule 10 (statement -> BEGIN statementList END .)
-
-
-state 29
-
-    (13) statementList -> statementList SEMMICOLOM . statement
-    (9) statement -> . CALL ID LPAREN RPAREN
-    (10) statement -> . BEGIN statementList END
-    (11) statement -> . empty
-    (14) empty -> .
-
-    CALL            shift and go to state 13
-    BEGIN           shift and go to state 14
-    END             reduce using rule 14 (empty -> .)
-    SEMMICOLOM      reduce using rule 14 (empty -> .)
-
-    statement                      shift and go to state 33
-    empty                          shift and go to state 15
-
-state 30
-
-    (7) procedureDeclare -> PROCEDURE ID LPAREN RPAREN . statement SEMMICOLOM procedureDeclare
-    (9) statement -> . CALL ID LPAREN RPAREN
-    (10) statement -> . BEGIN statementList END
-    (11) statement -> . empty
-    (14) empty -> .
-
-    CALL            shift and go to state 13
-    BEGIN           shift and go to state 14
-    SEMMICOLOM      reduce using rule 14 (empty -> .)
-
-    statement                      shift and go to state 34
-    empty                          shift and go to state 15
-
-state 31
-
-    (6) varAssignList -> varAssignList COMMA ID ASSIGN . NUMBER
+    (9) varAssignList -> ID ASSIGN . NUMBER
 
     NUMBER          shift and go to state 35
 
 
+state 27
+
+    (3) importDeclare -> IMPORT importDeclareList SEMMICOLOM importDeclare .
+
+    DECLARE         reduce using rule 3 (importDeclare -> IMPORT importDeclareList SEMMICOLOM importDeclare .)
+    PROCEDURE       reduce using rule 3 (importDeclare -> IMPORT importDeclareList SEMMICOLOM importDeclare .)
+    CALL            reduce using rule 3 (importDeclare -> IMPORT importDeclareList SEMMICOLOM importDeclare .)
+    BEGIN           reduce using rule 3 (importDeclare -> IMPORT importDeclareList SEMMICOLOM importDeclare .)
+    $end            reduce using rule 3 (importDeclare -> IMPORT importDeclareList SEMMICOLOM importDeclare .)
+
+
+state 28
+
+    (6) importDeclareList -> importDeclareList COMMA ID .
+
+    SEMMICOLOM      reduce using rule 6 (importDeclareList -> importDeclareList COMMA ID .)
+    COMMA           reduce using rule 6 (importDeclareList -> importDeclareList COMMA ID .)
+
+
+state 29
+
+    (13) statement -> CALL ID . LPAREN RPAREN
+
+    LPAREN          shift and go to state 36
+
+
+state 30
+
+    (14) statement -> BEGIN statementList . END
+    (17) statementList -> statementList . SEMMICOLOM statement
+
+    END             shift and go to state 37
+    SEMMICOLOM      shift and go to state 38
+
+
+state 31
+
+    (16) statementList -> statement .
+
+    END             reduce using rule 16 (statementList -> statement .)
+    SEMMICOLOM      reduce using rule 16 (statementList -> statement .)
+
+
 state 32
 
-    (9) statement -> CALL ID LPAREN RPAREN .
+    (11) procedureDeclare -> PROCEDURE ID LPAREN . RPAREN statement SEMMICOLOM procedureDeclare
 
-    $end            reduce using rule 9 (statement -> CALL ID LPAREN RPAREN .)
-    END             reduce using rule 9 (statement -> CALL ID LPAREN RPAREN .)
-    SEMMICOLOM      reduce using rule 9 (statement -> CALL ID LPAREN RPAREN .)
+    RPAREN          shift and go to state 39
 
 
 state 33
 
-    (13) statementList -> statementList SEMMICOLOM statement .
+    (7) varAssign -> DECLARE varAssignList SEMMICOLOM varAssign .
 
-    END             reduce using rule 13 (statementList -> statementList SEMMICOLOM statement .)
-    SEMMICOLOM      reduce using rule 13 (statementList -> statementList SEMMICOLOM statement .)
+    PROCEDURE       reduce using rule 7 (varAssign -> DECLARE varAssignList SEMMICOLOM varAssign .)
+    CALL            reduce using rule 7 (varAssign -> DECLARE varAssignList SEMMICOLOM varAssign .)
+    BEGIN           reduce using rule 7 (varAssign -> DECLARE varAssignList SEMMICOLOM varAssign .)
+    $end            reduce using rule 7 (varAssign -> DECLARE varAssignList SEMMICOLOM varAssign .)
 
 
 state 34
 
-    (7) procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement . SEMMICOLOM procedureDeclare
+    (10) varAssignList -> varAssignList COMMA ID . ASSIGN NUMBER
 
-    SEMMICOLOM      shift and go to state 36
+    ASSIGN          shift and go to state 40
 
 
 state 35
 
-    (6) varAssignList -> varAssignList COMMA ID ASSIGN NUMBER .
+    (9) varAssignList -> ID ASSIGN NUMBER .
 
-    SEMMICOLOM      reduce using rule 6 (varAssignList -> varAssignList COMMA ID ASSIGN NUMBER .)
-    COMMA           reduce using rule 6 (varAssignList -> varAssignList COMMA ID ASSIGN NUMBER .)
+    SEMMICOLOM      reduce using rule 9 (varAssignList -> ID ASSIGN NUMBER .)
+    COMMA           reduce using rule 9 (varAssignList -> ID ASSIGN NUMBER .)
 
 
 state 36
 
-    (7) procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM . procedureDeclare
-    (7) procedureDeclare -> . PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare
-    (8) procedureDeclare -> . empty
-    (14) empty -> .
+    (13) statement -> CALL ID LPAREN . RPAREN
 
-    PROCEDURE       shift and go to state 8
-    CALL            reduce using rule 14 (empty -> .)
-    BEGIN           reduce using rule 14 (empty -> .)
-    $end            reduce using rule 14 (empty -> .)
+    RPAREN          shift and go to state 41
 
-    procedureDeclare               shift and go to state 37
-    empty                          shift and go to state 9
 
 state 37
 
-    (7) procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare .
+    (14) statement -> BEGIN statementList END .
 
-    CALL            reduce using rule 7 (procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare .)
-    BEGIN           reduce using rule 7 (procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare .)
-    $end            reduce using rule 7 (procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare .)
+    $end            reduce using rule 14 (statement -> BEGIN statementList END .)
+    END             reduce using rule 14 (statement -> BEGIN statementList END .)
+    SEMMICOLOM      reduce using rule 14 (statement -> BEGIN statementList END .)
+
+
+state 38
+
+    (17) statementList -> statementList SEMMICOLOM . statement
+    (13) statement -> . CALL ID LPAREN RPAREN
+    (14) statement -> . BEGIN statementList END
+    (15) statement -> . empty
+    (18) empty -> .
+
+    CALL            shift and go to state 20
+    BEGIN           shift and go to state 21
+    END             reduce using rule 18 (empty -> .)
+    SEMMICOLOM      reduce using rule 18 (empty -> .)
+
+    statement                      shift and go to state 42
+    empty                          shift and go to state 22
+
+state 39
+
+    (11) procedureDeclare -> PROCEDURE ID LPAREN RPAREN . statement SEMMICOLOM procedureDeclare
+    (13) statement -> . CALL ID LPAREN RPAREN
+    (14) statement -> . BEGIN statementList END
+    (15) statement -> . empty
+    (18) empty -> .
+
+    CALL            shift and go to state 20
+    BEGIN           shift and go to state 21
+    SEMMICOLOM      reduce using rule 18 (empty -> .)
+
+    statement                      shift and go to state 43
+    empty                          shift and go to state 22
+
+state 40
+
+    (10) varAssignList -> varAssignList COMMA ID ASSIGN . NUMBER
+
+    NUMBER          shift and go to state 44
+
+
+state 41
+
+    (13) statement -> CALL ID LPAREN RPAREN .
+
+    $end            reduce using rule 13 (statement -> CALL ID LPAREN RPAREN .)
+    END             reduce using rule 13 (statement -> CALL ID LPAREN RPAREN .)
+    SEMMICOLOM      reduce using rule 13 (statement -> CALL ID LPAREN RPAREN .)
+
+
+state 42
+
+    (17) statementList -> statementList SEMMICOLOM statement .
+
+    END             reduce using rule 17 (statementList -> statementList SEMMICOLOM statement .)
+    SEMMICOLOM      reduce using rule 17 (statementList -> statementList SEMMICOLOM statement .)
+
+
+state 43
+
+    (11) procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement . SEMMICOLOM procedureDeclare
+
+    SEMMICOLOM      shift and go to state 45
+
+
+state 44
+
+    (10) varAssignList -> varAssignList COMMA ID ASSIGN NUMBER .
+
+    SEMMICOLOM      reduce using rule 10 (varAssignList -> varAssignList COMMA ID ASSIGN NUMBER .)
+    COMMA           reduce using rule 10 (varAssignList -> varAssignList COMMA ID ASSIGN NUMBER .)
+
+
+state 45
+
+    (11) procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM . procedureDeclare
+    (11) procedureDeclare -> . PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare
+    (12) procedureDeclare -> . empty
+    (18) empty -> .
+
+    PROCEDURE       shift and go to state 13
+    CALL            reduce using rule 18 (empty -> .)
+    BEGIN           reduce using rule 18 (empty -> .)
+    $end            reduce using rule 18 (empty -> .)
+
+    procedureDeclare               shift and go to state 46
+    empty                          shift and go to state 14
+
+state 46
+
+    (11) procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare .
+
+    CALL            reduce using rule 11 (procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare .)
+    BEGIN           reduce using rule 11 (procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare .)
+    $end            reduce using rule 11 (procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare .)
 

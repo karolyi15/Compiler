@@ -3,4 +3,3 @@ def readFile(path):
     content=file.read()
     return content
 
-readFile("test1.txt")

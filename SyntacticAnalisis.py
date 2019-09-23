@@ -25,8 +25,20 @@ def p_program(p):
 #*****************************************************************block productions*****************************************************************#
 
 def p_block1(p):
-    """block : varAssign procedureDeclare statement"""
+    """block : importDeclare varAssign procedureDeclare statement"""
     print("BLOCK1")
+
+def p_importDeclare1(p):
+    """importDeclare : IMPORT importDeclareList SEMMICOLOM importDeclare"""
+
+def p_importDeclare2(p):
+    """importDeclare : empty"""
+
+def p_imporDeclareList1(p):
+    """importDeclareList :  ID"""
+
+def p_imporDecalreList2(p):
+    """importDeclareList : importDeclareList COMMA ID"""
 
 #****************************************************************varAssign productions**************************************************************#
 
