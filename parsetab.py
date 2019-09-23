@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'rightIDCALLBEGINrightPROCEDURErightDECLARErightASSIGNrightUPDATEleftPLUSMINUSleftTIMESDIVIDEleftLPARENRPARENASSIGN BEGIN CALL COMMA COMMENT DECLARE DIVIDE END FOR ID IMPORT LPAREN MINUS NUMBER PLUS PROCEDURE RPAREN SEMMICOLOM TIMES UPDATEprogram : COMMENT blockblock : varAssign procedureDeclarevarAssign : DECLARE varAssignList SEMMICOLOM varAssignvarAssign : emptyvarAssignList : ID ASSIGN NUMBERvarAssignList : varAssignList COMMA ID ASSIGN NUMBERprocedureDeclare : PROCEDURE ID LPAREN RPAREN SEMMICOLOM procedureDeclareprocedureDeclare : emptystatement : CALL ID LPAREN RPAREN SEMMICOLOMstatement : BEGIN statementList END SEMMICOLOMstatement : emptystatementList : statement statementList : statementList SEMMICOLOM statement empty :'
+_lr_signature = 'rightIDCALLBEGINrightPROCEDURErightDECLARErightASSIGNrightUPDATEleftPLUSMINUSleftTIMESDIVIDEleftLPARENRPARENASSIGN BEGIN CALL COMMA COMMENT DECLARE DIVIDE END FOR ID IMPORT LPAREN MINUS NUMBER PLUS PROCEDURE RPAREN SEMMICOLOM TIMES UPDATEprogram : COMMENT blockblock : varAssign procedureDeclare statementvarAssign : DECLARE varAssignList SEMMICOLOM varAssignvarAssign : emptyvarAssignList : ID ASSIGN NUMBERvarAssignList : varAssignList COMMA ID ASSIGN NUMBERprocedureDeclare : PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclareprocedureDeclare : emptystatement : CALL ID LPAREN RPARENstatement : BEGIN statementList ENDstatement : emptystatementList : statement statementList : statementList SEMMICOLOM statement empty :'
     
-_lr_action_items = {'COMMENT':([0,],[2,]),'$end':([1,2,3,4,6,7,9,13,17,22,24,],[0,-14,-1,-14,-4,-2,-8,-14,-3,-14,-7,]),'DECLARE':([2,13,],[5,5,]),'PROCEDURE':([2,4,6,13,17,22,],[-14,8,-4,-14,-3,8,]),'ID':([5,8,14,],[11,12,18,]),'SEMMICOLOM':([10,19,20,23,],[13,-5,22,-6,]),'COMMA':([10,19,23,],[14,-5,-6,]),'ASSIGN':([11,18,],[15,21,]),'LPAREN':([12,],[16,]),'NUMBER':([15,21,],[19,23,]),'RPAREN':([16,],[20,]),}
+_lr_action_items = {'COMMENT':([0,],[2,]),'$end':([1,2,3,4,6,7,9,12,15,17,24,28,32,36,37,],[0,-14,-1,-14,-4,-14,-8,-2,-11,-14,-3,-10,-9,-14,-7,]),'DECLARE':([2,17,],[5,5,]),'PROCEDURE':([2,4,6,17,24,36,],[-14,8,-4,-14,-3,8,]),'CALL':([2,4,6,7,9,14,17,24,29,30,36,37,],[-14,-14,-4,13,-8,13,-14,-3,13,13,-14,-7,]),'BEGIN':([2,4,6,7,9,14,17,24,29,30,36,37,],[-14,-14,-4,14,-8,14,-14,-3,14,14,-14,-7,]),'ID':([5,8,13,18,],[11,16,20,25,]),'SEMMICOLOM':([10,14,15,21,22,26,28,29,30,32,33,34,35,],[17,-14,-11,29,-12,-5,-10,-14,-14,-9,-13,36,-6,]),'COMMA':([10,26,35,],[18,-5,-6,]),'ASSIGN':([11,25,],[19,31,]),'END':([14,15,21,22,28,29,32,33,],[-14,-11,28,-12,-10,-14,-9,-13,]),'LPAREN':([16,20,],[23,27,]),'NUMBER':([19,31,],[26,35,]),'RPAREN':([23,27,],[30,32,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'block':([2,],[3,]),'varAssign':([2,13,],[4,17,]),'empty':([2,4,13,22,],[6,9,6,9,]),'procedureDeclare':([4,22,],[7,24,]),'varAssignList':([5,],[10,]),}
+_lr_goto_items = {'program':([0,],[1,]),'block':([2,],[3,]),'varAssign':([2,17,],[4,24,]),'empty':([2,4,7,14,17,29,30,36,],[6,9,15,15,6,15,15,9,]),'procedureDeclare':([4,36,],[7,37,]),'varAssignList':([5,],[10,]),'statement':([7,14,29,30,],[12,22,33,34,]),'statementList':([14,],[21,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,18 +27,18 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> COMMENT block','program',2,'p_program','SyntacticAnalisis.py',21),
-  ('block -> varAssign procedureDeclare','block',2,'p_block1','SyntacticAnalisis.py',27),
-  ('varAssign -> DECLARE varAssignList SEMMICOLOM varAssign','varAssign',4,'p_varAssingn1','SyntacticAnalisis.py',33),
-  ('varAssign -> empty','varAssign',1,'p_varAssingn2','SyntacticAnalisis.py',37),
-  ('varAssignList -> ID ASSIGN NUMBER','varAssignList',3,'p_varAssignList1','SyntacticAnalisis.py',43),
-  ('varAssignList -> varAssignList COMMA ID ASSIGN NUMBER','varAssignList',5,'p_varAssignList2','SyntacticAnalisis.py',47),
-  ('procedureDeclare -> PROCEDURE ID LPAREN RPAREN SEMMICOLOM procedureDeclare','procedureDeclare',6,'p_procedureDeclare1','SyntacticAnalisis.py',53),
-  ('procedureDeclare -> empty','procedureDeclare',1,'p_procedureDeclare2','SyntacticAnalisis.py',57),
-  ('statement -> CALL ID LPAREN RPAREN SEMMICOLOM','statement',5,'p_statement1','SyntacticAnalisis.py',63),
-  ('statement -> BEGIN statementList END SEMMICOLOM','statement',4,'p_statement2','SyntacticAnalisis.py',67),
-  ('statement -> empty','statement',1,'p_statement3','SyntacticAnalisis.py',71),
-  ('statementList -> statement','statementList',1,'p_statementList1','SyntacticAnalisis.py',77),
-  ('statementList -> statementList SEMMICOLOM statement','statementList',3,'p_statementList2','SyntacticAnalisis.py',81),
-  ('empty -> <empty>','empty',0,'p_empty','SyntacticAnalisis.py',87),
+  ('program -> COMMENT block','program',2,'p_program','SyntacticAnalisis.py',22),
+  ('block -> varAssign procedureDeclare statement','block',3,'p_block1','SyntacticAnalisis.py',28),
+  ('varAssign -> DECLARE varAssignList SEMMICOLOM varAssign','varAssign',4,'p_varAssingn1','SyntacticAnalisis.py',34),
+  ('varAssign -> empty','varAssign',1,'p_varAssingn2','SyntacticAnalisis.py',38),
+  ('varAssignList -> ID ASSIGN NUMBER','varAssignList',3,'p_varAssignList1','SyntacticAnalisis.py',44),
+  ('varAssignList -> varAssignList COMMA ID ASSIGN NUMBER','varAssignList',5,'p_varAssignList2','SyntacticAnalisis.py',48),
+  ('procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare','procedureDeclare',7,'p_procedureDeclare1','SyntacticAnalisis.py',54),
+  ('procedureDeclare -> empty','procedureDeclare',1,'p_procedureDeclare2','SyntacticAnalisis.py',58),
+  ('statement -> CALL ID LPAREN RPAREN','statement',4,'p_statement1','SyntacticAnalisis.py',64),
+  ('statement -> BEGIN statementList END','statement',3,'p_statement2','SyntacticAnalisis.py',68),
+  ('statement -> empty','statement',1,'p_statement3','SyntacticAnalisis.py',72),
+  ('statementList -> statement','statementList',1,'p_statementList1','SyntacticAnalisis.py',78),
+  ('statementList -> statementList SEMMICOLOM statement','statementList',3,'p_statementList2','SyntacticAnalisis.py',82),
+  ('empty -> <empty>','empty',0,'p_empty','SyntacticAnalisis.py',88),
 ]

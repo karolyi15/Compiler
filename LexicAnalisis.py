@@ -64,7 +64,7 @@ lexer = lex.lex()
 data = "//test-este codigo es una prueba\ndeclare var1;\ndeclare var2=15;\nprocedure test1 (var)\nbegin\ncall test2();\nend;"
 
 #input data
-lexer.input(data)
+#lexer.input()
 
 # Tokenize-print
 """while True:

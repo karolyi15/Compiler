@@ -1,5 +1,6 @@
 import ply.yacc as yacc
 from LexicAnalisis import tokens
+from _Main import readFile
 
 #error handling from shift/reduce
 #analising most right or most left
@@ -24,7 +25,7 @@ def p_program(p):
 #*****************************************************************block productions*****************************************************************#
 
 def p_block1(p):
-    """block : varAssign procedureDeclare"""
+    """block : varAssign procedureDeclare statement"""
     print("BLOCK1")
 
 #****************************************************************varAssign productions**************************************************************#
@@ -50,7 +51,7 @@ def p_varAssignList2(p):
 #**************************************************************procedureDeclare productions**********************************************************#
 
 def p_procedureDeclare1(p):
-    """procedureDeclare : PROCEDURE ID LPAREN RPAREN SEMMICOLOM procedureDeclare"""
+    """procedureDeclare : PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare"""
     print("PROCEDUREDECLARE1")
 
 def p_procedureDeclare2(p):
@@ -60,11 +61,11 @@ def p_procedureDeclare2(p):
 #**************************************************************statement productions******************************************************************#
 
 def p_statement1(p):
-    """statement : CALL ID LPAREN RPAREN SEMMICOLOM"""
+    """statement : CALL ID LPAREN RPAREN"""
     print("STATEMENT1")
 
 def p_statement2(p):
-    """statement : BEGIN statementList END SEMMICOLOM"""
+    """statement : BEGIN statementList END"""
     print("STATEMENT2")
 
 def p_statement3(p):
@@ -93,6 +94,6 @@ def p_error(p):
 
 
 parser= yacc.yacc()
-result=parser.parse("//\ndeclare var=0,var2=1;declare var3=90;\nprocedure testing() begin call test2();  end;")
+result=parser.parse(readFile("test1.txt"))
 print(result)
 

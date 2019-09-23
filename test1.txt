@@ -1,0 +1,11 @@
+//test1-este programa es de prueba para el compilador
+
+declare var=0,var2=1;
+declare var3=90;
+
+procedure testing()
+begin
+call testing2();
+call testing3();
+call testing4();
+end;
