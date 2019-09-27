@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 from LexicAnalisis import tokens
 from _Main import readFile
+from SemanticAnalisis import *
 
 #error handling from shift/reduce
 #analising most right or most left
@@ -21,34 +22,46 @@ precedence=(
 def p_program(p):
     """program : COMMENT block"""
     print("PROGRAM")
+    p[0]=program("program",p[2])
 
 #*****************************************************************block productions*****************************************************************#
 
 def p_block1(p):
     """block : importDeclare varAssign procedureDeclare statement"""
     print("BLOCK1")
-
+    p[0]=block1("block", p[1],p[2],p[3],p[4])
+#******************************************************************import declare*******************************************************************#
 def p_importDeclare1(p):
     """importDeclare : IMPORT importDeclareList SEMMICOLOM importDeclare"""
+    print("importDeclare1")
+    p[0]=importDeclare1("importList",p[2],p[4])
 
 def p_importDeclare2(p):
     """importDeclare : empty"""
-
+    print("importDeclare_empty")
+    p[0]=Null()
+#***************************************************************import declare list****************************************************************#
 def p_imporDeclareList1(p):
     """importDeclareList :  ID"""
+    print("importDeclareList1")
+    p[0]=importDeclareList1("importlist",p[1])
 
 def p_imporDecalreList2(p):
     """importDeclareList : importDeclareList COMMA ID"""
+    print("importDeclareList2")
+    p[0]=imporDecalreList2("importList",p[1],p[3])
 
 #****************************************************************varAssign productions**************************************************************#
 
 def p_varAssingn1(p):
     """varAssign : DECLARE varAssignList SEMMICOLOM varAssign"""
     print("VARASSIGN1")
+    #p[0]= varAssignList1("Assign",p[2],p[4])
 
 def p_varAssingn2(p):
     """varAssign : empty"""
-    print("VARASSIGN2")
+    print("VARASSIGN2_empty")
+    #p[0]=Null()
 
 #**************************************************************varAssignlist productions************************************************************#
 
@@ -68,7 +81,8 @@ def p_procedureDeclare1(p):
 
 def p_procedureDeclare2(p):
     """procedureDeclare : empty"""
-    print("PROCEDUREDECLARE2")
+    print("PROCEDUREDECLARE2_empty")
+    #p[0]=Null()
 
 #**************************************************************statement productions******************************************************************#
 
@@ -82,7 +96,8 @@ def p_statement2(p):
 
 def p_statement3(p):
     """statement : empty"""
-    print("STATEMENT3")
+    print("STATEMENT3_empty")
+    #p[0]=Null()
 
 #*****************************************************************statementList productions***********************************************************#
 
@@ -106,6 +121,15 @@ def p_error(p):
 
 
 parser= yacc.yacc()
-result=parser.parse(readFile("test1.txt"))
+result=parser.parse(readFile("C_input.txt"))
+
+#result.printer(" ")
+#print(result.translate()
+
+compiledFile=open("C_output.txt","w")
+compiledFile.write(result.translate())
+compiledFile.close()
+
 print(result)
+
 

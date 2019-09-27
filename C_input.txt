@@ -1,0 +1,6 @@
+//test1-este programa es de prueba para el compilador
+import doc1;
+
+
+
+
