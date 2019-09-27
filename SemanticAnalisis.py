@@ -1,154 +1,96 @@
 newCode=""
-counter=0
-
-def increaseCounter():
-    global counter
-    counter+=1
-    return str(counter)
-
+#*********************************************************************************************************************************************************************#
 class Node():
     pass
-
+#*********************************************************************************************************************************************************************#
 class Null(Node):
 
     def __init__(self):
         self.type="void"
 
-    def printer(self, ident):
-        print(ident+"nodo nulo")
-
     def translate(self):
-        global newCode
-        id = increaseCounter()
-        newCode += "[label= nodo nulo]\n\t"
-        print(newCode)
-        return id
-
+        return ""
+#*********************************************************************************************************************************************************************#
 class program(Node):
+    """program : COMMENT block"""
+    def __init__(self,comment,block):
 
-    def __init__(self,name,child1):
-        self.name=name
-        self.child1=child1
+        self.comment=comment
+        self.block=block
 
     def translate(self):
-        print("traduciendo programa")
         global newCode
-        id = increaseCounter()
-        child1=self.child1.translate()
 
-        newCode+=id+"[label="+self.name+"]"+"\n\t"
-        newCode+=id+"->"+child1+"\n\t"
+        block= self.block.translate()
+
+        newCode+=self.comment+"\n"
+        newCode+=block+"\n"
 
         return newCode
-
-    def printer(self,ident):
-        print(ident + "Nodo: " + self.name)
-        self.child1.printer("   "+ident)
-
-
+#*********************************************************************************************************************************************************************#
 class block1(Node):
+    """block : importDeclare varAssign procedureDeclare statement"""
+    def __init__(self,importDeclare,varAssign,procedureDeclare,statement):
 
-    def __init__(self, name, child1,child2,child3,child4):
-        self.name = name
-        self.child1 = child1
-        self.child2 = child2
-        self.child3 = child3
-        self.child4 = child4
+        self.importDeclare = importDeclare
+        self.varAssign= varAssign
+        self.procedureDeclare = procedureDeclare
+        self.statement = statement
 
     def translate(self):
         print("traduciendo block")
         global newCode
-        id = increaseCounter()
-        child1 = self.child1.translate()
+
+        importDeclare = self.importDeclare.translate()
         #child2 = self.child2.translate()
         #child3 = self.child3.translate()
         #child4 = self.child4.translate()
-        newCode += id + "[label=" + self.name + "]" + "\n\t"
-        print(newCode)
 
-        return id
-
-    def printer(self, ident):
-        print(ident + "Nodo: " + self.name)
-        self.child1.printer("" + ident)
-        self.child2.printer("" + ident)
-        self.child3.printer("" + ident)
-        self.child4.printer("" + ident)
+        return importDeclare+"\n"
+#*********************************************************************************************************************************************************************#
 
 class importDeclare1(Node):
+    """importDeclare : IMPORT importDeclareList SEMMICOLOM importDeclare"""
+    def __init__(self,Import,importDeclareList,importDeclare):
 
-    def __init__(self,name,child1,child2):
-        self.name=name
-        self.child1=child1
-        self.child2=child2
+        self.Import=str(Import).lower()
+        self.importDeclareList=importDeclareList
+        self.importDecalre=importDeclare
 
     def translate(self):
         print("traduciendo import 1")
-        global newCode
-        id = increaseCounter()
-        child1 = self.child1.translate()
-        child2 = self.child2.translate()
+        importDeclareList=self.importDeclareList.translate()
+        importDeclare=self.importDecalre.translate()
 
-        newCode += id + "[label=" + self.name + "]" + "\n\t"
+        return self.Import+" "+importDeclareList+"\n"+importDeclare
 
-        return id
-
-    def printer(self, ident):
-        print(ident + "Nodo: " + self.name)
-        self.child1.printer("" + ident)
-        self.child2.printer("" + ident)
-
-
-class importDeclare2(Node):
-
-    def __init__(self,name):
-        self.name=name
-
-    def translate(self):
-        global newCode
-        id = increaseCounter()
-        return id
-    def printer(self, ident):
-        print(ident + "Nodo: " + self.name)
-        self.child1.printer("" + ident)
-
+#*********************************************************************************************************************************************************************#
 
 class importDeclareList1(Node):
+    """importDeclareList :  ID"""
+    def __init__(self,id):
 
-    def __init__(self,name,child1):
-        self.name=name
-        self.child1=child1
+        self.id=id
 
     def translate(self):
         print("traduciendo import list")
-        global newCode
-        id = increaseCounter()
-        #child1 = self.child1.translate()
-        return id
 
-    def printer(self, ident):
-        print(ident + "Nodo: " + self.name)
-        self.child1.printer("" + ident)
+        return self.id
 
 class imporDecalreList2(Node):
-
-    def __init__(self,name,child1,child2):
-        self.name=name
-        self.child1=child1
-        self.child2=child2
+    """importDeclareList : importDeclareList COMMA ID"""
+    def __init__(self,importDeclareList,comma,id):
+        self.importDeclareList=importDeclareList
+        self.comma=comma
+        self.id=id
 
     def translate(self):
         print("traduciendo import list 2")
-        global newCode
-        id = increaseCounter()
-        child1 = self.child1.translate()
-        #child2 = self.child2.translate()
-        return id
 
-    def printer(self, ident):
-        print(ident + "Nodo: " + self.name)
-        self.child1.printer("" + ident)
-        self.child2.printer("" + ident)
+        importDeclareList=self.importDeclareList.translate()
+
+        return importDeclareList+self.comma+self.id
+
 
 #*************************************************************************************************************************************
 class varAssingn1(Node):

@@ -22,19 +22,19 @@ precedence=(
 def p_program(p):
     """program : COMMENT block"""
     print("PROGRAM")
-    p[0]=program("program",p[2])
+    p[0]=program(p[1],p[2])
 
 #*****************************************************************block productions*****************************************************************#
 
 def p_block1(p):
     """block : importDeclare varAssign procedureDeclare statement"""
     print("BLOCK1")
-    p[0]=block1("block", p[1],p[2],p[3],p[4])
+    p[0]=block1(p[1],p[2],p[3],p[4])
 #******************************************************************import declare*******************************************************************#
 def p_importDeclare1(p):
     """importDeclare : IMPORT importDeclareList SEMMICOLOM importDeclare"""
     print("importDeclare1")
-    p[0]=importDeclare1("importList",p[2],p[4])
+    p[0]=importDeclare1(p[1],p[2],p[4])
 
 def p_importDeclare2(p):
     """importDeclare : empty"""
@@ -44,12 +44,12 @@ def p_importDeclare2(p):
 def p_imporDeclareList1(p):
     """importDeclareList :  ID"""
     print("importDeclareList1")
-    p[0]=importDeclareList1("importlist",p[1])
+    p[0]=importDeclareList1(p[1])
 
 def p_imporDecalreList2(p):
     """importDeclareList : importDeclareList COMMA ID"""
     print("importDeclareList2")
-    p[0]=imporDecalreList2("importList",p[1],p[3])
+    p[0]=imporDecalreList2(p[1],p[2],p[3])
 
 #****************************************************************varAssign productions**************************************************************#
 
