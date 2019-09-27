@@ -4,7 +4,7 @@
     <list default="true" id="4bcd7914-3de8-42ac-bdf4-05a7ed88cf2a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/C_input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/C_input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/C_output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/C_output.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/C_output.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SemanticAnalisis.py" beforeDir="false" afterPath="$PROJECT_DIR$/SemanticAnalisis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SyntacticAnalisis.py" beforeDir="false" afterPath="$PROJECT_DIR$/SyntacticAnalisis.py" afterDir="false" />
     </list>
@@ -159,7 +159,7 @@
       <workItem from="1569194240791" duration="307000" />
       <workItem from="1569194672404" duration="22322000" />
       <workItem from="1569266453617" duration="1450000" />
-      <workItem from="1569272215833" duration="24912000" />
+      <workItem from="1569272215833" duration="28982000" />
     </task>
     <servers />
   </component>
@@ -182,7 +182,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Compiler$Main.coverage" NAME="Main Coverage Results" MODIFIED="1569218580887" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Compiler$SemanticAnalisis.coverage" NAME="SemanticAnalisis Coverage Results" MODIFIED="1569510150261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Compiler$SyntacticAnalisis.coverage" NAME="SyntacticAnalisis Coverage Results" MODIFIED="1569605063661" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Compiler$SyntacticAnalisis.coverage" NAME="SyntacticAnalisis Coverage Results" MODIFIED="1569609099891" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Compiler$LexicAnalisis.coverage" NAME="LexicAnalisis Coverage Results" MODIFIED="1569205427258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

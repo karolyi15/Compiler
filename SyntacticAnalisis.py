@@ -56,58 +56,65 @@ def p_imporDecalreList2(p):
 def p_varAssingn1(p):
     """varAssign : DECLARE varAssignList SEMMICOLOM varAssign"""
     print("VARASSIGN1")
-    #p[0]= varAssignList1("Assign",p[2],p[4])
+    p[0]= varAssingn1(p[2],p[4])
 
 def p_varAssingn2(p):
     """varAssign : empty"""
     print("VARASSIGN2_empty")
-    #p[0]=Null()
+    p[0]=Null()
 
 #**************************************************************varAssignlist productions************************************************************#
 
 def p_varAssignList1(p):
     """varAssignList : ID ASSIGN NUMBER"""
     print("VARASSIGNLIST1")
+    p[0]=varAssignList1(p[1],p[3])
 
 def p_varAssignList2(p):
     """varAssignList : varAssignList COMMA ID ASSIGN NUMBER"""
     print("VARASSIGNLIST2")
+    p[0]=varAssignList2(p[1],p[3],p[5])
 
 #**************************************************************procedureDeclare productions**********************************************************#
 
 def p_procedureDeclare1(p):
     """procedureDeclare : PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare"""
     print("PROCEDUREDECLARE1")
+    p[0]=procedureDeclare1(p[2],p[5],p[7])
 
 def p_procedureDeclare2(p):
     """procedureDeclare : empty"""
     print("PROCEDUREDECLARE2_empty")
-    #p[0]=Null()
+    p[0]=Null()
 
 #**************************************************************statement productions******************************************************************#
 
 def p_statement1(p):
     """statement : CALL ID LPAREN RPAREN"""
     print("STATEMENT1")
+    p[0]=statement1(p[2])
 
 def p_statement2(p):
     """statement : BEGIN statementList END"""
     print("STATEMENT2")
+    p[0]=statement2(p[2])
 
 def p_statement3(p):
     """statement : empty"""
     print("STATEMENT3_empty")
-    #p[0]=Null()
+    p[0]=Null()
 
 #*****************************************************************statementList productions***********************************************************#
 
 def p_statementList1(p):
     """statementList : statement """
     print("STATEMENTLIST1")
+    p[0]=statementList1(p[1])
 
 def p_statementList2(p):
     """statementList : statementList SEMMICOLOM statement """
     print("STATEMENTLIST2")
+    p[0]=statementList2(p[1],p[3])
 
 #*****************************************************************other productions*******************************************************************#
 

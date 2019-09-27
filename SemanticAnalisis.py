@@ -23,7 +23,7 @@ class program(Node):
 
         block= self.block.translate()
 
-        newCode+=self.comment+"\n"
+        newCode+="#"+self.comment+"\n"
         newCode+=block+"\n"
 
         return newCode
@@ -42,11 +42,11 @@ class block1(Node):
         global newCode
 
         importDeclare = self.importDeclare.translate()
-        #child2 = self.child2.translate()
-        #child3 = self.child3.translate()
+        varAssign=self.varAssign.translate()
+        procedureDeclare=self.procedureDeclare.translate()
         #child4 = self.child4.translate()
 
-        return importDeclare+"\n"
+        return importDeclare+"\n"+varAssign+"\n"+procedureDeclare
 #*********************************************************************************************************************************************************************#
 
 class importDeclare1(Node):
@@ -94,121 +94,96 @@ class imporDecalreList2(Node):
 
 #*************************************************************************************************************************************
 class varAssingn1(Node):
+    """varAssign : DECLARE varAssignList SEMMICOLOM varAssign"""
+    def __init__(self,varAssignList,varAssign):
+        self.varAssignList=varAssignList
+        self.varAssign=varAssign
 
-    def __init__(self,name):
-        self.name=name
+    def translate(self):
 
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
+        varAssignList=self.varAssignList.translate()
+        varAssign=self.varAssign.translate()
 
-class varAssingn2(Node):
+        return varAssignList+"\n"+varAssign
 
-    def __init__(self,name):
-        self.name=name
-
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
-
+#*************************************************************************************************************************************
 class varAssignList1(Node):
+    """varAssignList : ID ASSIGN NUMBER"""
+    def __init__(self,id,number):
+        self.id=id
+        self.number=number
 
-    def __init__(self,name):
-        self.name=name
+    def translate(self):
 
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
+        return self.id+"="+str(self.number)
 
 class varAssignList2(Node):
+    """varAssignList : varAssignList COMMA ID ASSIGN NUMBER"""
+    def __init__(self,varAssignList,id,number):
+        self.varAssignList=varAssignList
+        self.id=id
+        self.number=number
 
-    def __init__(self,name):
-        self.name=name
+    def translate(self):
+        varAssignList=self.varAssignList.translate()
 
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
+        return varAssignList+"\n"+self.id+"="+str(self.number)
 
+#*************************************************************************************************************************************
 class procedureDeclare1(Node):
+    """procedureDeclare : PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare"""
+    def __init__(self,id,statement,procedureDeclare):
+        self.id=id
+        self.statement=statement
+        self.procedureDeclare=procedureDeclare
 
-    def __init__(self,name):
-        self.name=name
+    def translate(self):
 
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
+        statement=self.statement.translate()
+        procedureDeclare=self.procedureDeclare.translate()
 
-class procedureDeclare2(Node):
+        return "def "+self.id+"():\n\t"+statement+"\n"+procedureDeclare
 
-    def __init__(self,name):
-        self.name=name
-
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
-
+#*************************************************************************************************************************************
 class statement1(Node):
+    """statement : CALL ID LPAREN RPAREN"""
+    def __init__(self,id):
+        self.id=id
 
-    def __init__(self,name):
-        self.name=name
+    def translate(self):
 
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
+        return self.id+"()"
 
 class statement2(Node):
+    """statement : BEGIN statementList END"""
+    def __init__(self,statementlist):
+        self.statementList=statementlist
 
-    def __init__(self,name):
-        self.name=name
+    def translate(self):
+        statementList=self.statementList.translate()
 
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
+        return statementList
 
-class statement3(Node):
-
-    def __init__(self,name):
-        self.name=name
-
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
-
+#*************************************************************************************************************************************
 class statementList1(Node):
+    """statementList : statement """
+    def __init__(self,statement):
+        self.statement=statement
 
-    def __init__(self,name):
-        self.name=name
+    def translate(self):
+        statement=self.statement.translate()
 
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
+        return statement
 
 class statementList2(Node):
+    """statementList : statementList SEMMICOLOM statement """
+    def __init__(self,statementList,statement):
+        self.statementList=statementList
+        self.statement=statement
 
-    def __init__(self,name):
-        self.name=name
+    def translate(self):
 
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
+        statementList=self.statementList.translate()
+        statement=self.statement.translate()
+        return statementList+"\n\t"+statement
 
-class empty(Node):
-
-    def __init__(self,name):
-        self.name=name
-
-    def traducir(self):
-        global newCode
-        id = increaseCounter()
-        return id
