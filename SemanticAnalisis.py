@@ -1,113 +1,101 @@
+#str with the new code
 newCode=""
-#*********************************************************************************************************************************************************************#
+
+#the parent class
 class Node():
     pass
-#*********************************************************************************************************************************************************************#
-class Null(Node):
 
-    def __init__(self):
-        self.type="void"
+#***************************************************************PROGRAM CLASS**************************************************************************#
 
-    def translate(self):
-        return ""
-#*********************************************************************************************************************************************************************#
 class program(Node):
-    """program : COMMENT block"""
-    def __init__(self,comment,block):
+    """program : COMMENT importDeclare block"""
+    def __init__(self,comment,importDeclare,block):
 
         self.comment=comment
+        self.importDeclare = importDeclare
         self.block=block
 
     def translate(self):
         global newCode
 
+        importDeclare = self.importDeclare.translate()
         block= self.block.translate()
 
-        newCode+="#"+self.comment+"\n"
-        newCode+=block+"\n"
+        newCode+="#"+self.comment+"\nfrom _Main import *\n"
+        newCode+=importDeclare+"\n"+block
 
         return newCode
-#*********************************************************************************************************************************************************************#
-class block1(Node):
-    """block : importDeclare varAssign procedureDeclare statement"""
-    def __init__(self,importDeclare,varAssign,procedureDeclare,statement):
 
-        self.importDeclare = importDeclare
-        self.varAssign= varAssign
+#******************************************************************BLOCK CLASS*************************************************************************#
+
+class block(Node):
+    """block : varDeclare varAssign procedureDeclare statement"""
+    def __init__(self,varDeclare,procedureDeclare,statement):
+
+        self.varDeclare=varDeclare
         self.procedureDeclare = procedureDeclare
         self.statement = statement
 
     def translate(self):
-        print("traduciendo block")
-        global newCode
 
-        importDeclare = self.importDeclare.translate()
-        varAssign=self.varAssign.translate()
+        varDeclare=self.varDeclare.translate()
         procedureDeclare=self.procedureDeclare.translate()
-        #child4 = self.child4.translate()
+        statement=self.statement.translate()
 
-        return importDeclare+"\n"+varAssign+"\n"+procedureDeclare
-#*********************************************************************************************************************************************************************#
+        return varDeclare+"\n"+procedureDeclare+"\n"+statement
 
-class importDeclare1(Node):
-    """importDeclare : IMPORT importDeclareList SEMMICOLOM importDeclare"""
-    def __init__(self,Import,importDeclareList,importDeclare):
+#*****************************************************************IMPORT CLASS*************************************************************************#
 
-        self.Import=str(Import).lower()
-        self.importDeclareList=importDeclareList
-        self.importDecalre=importDeclare
+class importDeclare(Node):
+    """importDeclare : IMPORT DOC SEMMICOLOM importDeclare"""
+    def __init__(self,doc,importDeclare):
+
+        self.doc=doc
+        self.importDeclare=importDeclare
 
     def translate(self):
-        print("traduciendo import 1")
-        importDeclareList=self.importDeclareList.translate()
-        importDeclare=self.importDecalre.translate()
 
-        return self.Import+" "+importDeclareList+"\n"+importDeclare
+        importDeclare=self.importDeclare.translate()
 
-#*********************************************************************************************************************************************************************#
+        return "import "+self.doc+"\n"+importDeclare
 
-class importDeclareList1(Node):
-    """importDeclareList :  ID"""
+#****************************************************************DECLARE CLASSES***********************************************************************#
+
+class varDeclare1(Node):
+    """varDeclare : DECLARE varDeclareList SEMMICOLOM varDeclare"""
+
+    def __init__(self,varDeclareList,varDeclare):
+
+        self.varDeclareList=varDeclareList
+        self.varDeclare=varDeclare
+
+    def translate(self):
+        varDeclareList=self.varDeclareList.translate()
+        varDeclare=self.varDeclare.translate()
+
+        return varDeclareList+"\n"+varDeclare
+
+class varDeclareList1(Node):
+    """varDeclareList : ID"""
+
     def __init__(self,id):
-
         self.id=id
 
     def translate(self):
-        print("traduciendo import list")
+        return self.id+"=0"
 
-        return self.id
+class varDeclareList2(Node):
+    """varDeclareList : varDeclareList COMMA ID"""
 
-class imporDecalreList2(Node):
-    """importDeclareList : importDeclareList COMMA ID"""
-    def __init__(self,importDeclareList,comma,id):
-        self.importDeclareList=importDeclareList
-        self.comma=comma
+    def __init__(self, varDeclareList, id):
+        self.varDeclareList=varDeclareList
         self.id=id
 
     def translate(self):
-        print("traduciendo import list 2")
+        varDeclareList=self.varDeclareList.translate()
+        return self.id+"=0\n"+varDeclareList
 
-        importDeclareList=self.importDeclareList.translate()
-
-        return importDeclareList+self.comma+self.id
-
-
-#*************************************************************************************************************************************
-class varAssingn1(Node):
-    """varAssign : DECLARE varAssignList SEMMICOLOM varAssign"""
-    def __init__(self,varAssignList,varAssign):
-        self.varAssignList=varAssignList
-        self.varAssign=varAssign
-
-    def translate(self):
-
-        varAssignList=self.varAssignList.translate()
-        varAssign=self.varAssign.translate()
-
-        return varAssignList+"\n"+varAssign
-
-#*************************************************************************************************************************************
-class varAssignList1(Node):
+class varDeclareList3(Node):
     """varAssignList : ID ASSIGN NUMBER"""
     def __init__(self,id,number):
         self.id=id
@@ -117,7 +105,7 @@ class varAssignList1(Node):
 
         return self.id+"="+str(self.number)
 
-class varAssignList2(Node):
+class varDeclareList4(Node):
     """varAssignList : varAssignList COMMA ID ASSIGN NUMBER"""
     def __init__(self,varAssignList,id,number):
         self.varAssignList=varAssignList
@@ -129,61 +117,304 @@ class varAssignList2(Node):
 
         return varAssignList+"\n"+self.id+"="+str(self.number)
 
-#*************************************************************************************************************************************
-class procedureDeclare1(Node):
-    """procedureDeclare : PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare"""
-    def __init__(self,id,statement,procedureDeclare):
+#****************************************************************PROCEDURE CLASS***********************************************************************#
+
+class procedureDeclare(Node):
+    """procedureDeclare : PROCEDURE ID LPAREN parameter RPAREN BEGIN block END SEMMICOLOM procedureDeclare"""
+
+    def __init__(self,id,parameter,block,procedureDeclare):
+
         self.id=id
-        self.statement=statement
+        self.parameter=parameter
+        self.block=block
         self.procedureDeclare=procedureDeclare
 
     def translate(self):
 
-        statement=self.statement.translate()
+        parameter=self.parameter.translate()
+        block=self.block.translate()
         procedureDeclare=self.procedureDeclare.translate()
 
-        return "def "+self.id+"():\n\t"+statement+"\n"+procedureDeclare
+        return "def "+self.id+"("+parameter+"):\n\t"+block+"\n"+procedureDeclare
 
-#*************************************************************************************************************************************
+class parameter1(Node):
+    """parameter : factor"""
+    def __init__(self,factor):
+        self.factor=factor
+    def translate(self):
+        factor=self.factor.translate()
+
+        return factor
+
+class parameter2(Node):
+    """parameter : parameter COMMA factor"""
+    def __init__(self, parameter,factor):
+        self.factor= factor
+        self.parameter = parameter
+
+    def translate(self):
+        factor=self.factor.translate()
+        parameter = self.parameter.translate()
+
+        return parameter+","+factor
+
+#**************************************************************STATEMENT CLASSES***********************************************************************#
+
 class statement1(Node):
-    """statement : CALL ID LPAREN RPAREN"""
-    def __init__(self,id):
+    """statement : CALL ID LPAREN parameter RPAREN SEMMICOLOM statement"""
+    def __init__(self,id,parameter,statement):
+        self.id=id
+        self.parameter=parameter
+        self.statement=statement
+
+    def translate(self):
+        parameter=self.parameter.translate()
+        statement=self.statement.translate()
+
+        return self.id+"("+parameter+")\n"+statement
+
+class statement2(Node):
+    """statement : ID ASSIGN expression SEMMICOLOM statement"""
+
+    def __init__(self,id,expression,statement):
+        self.id=id
+        self.expression=expression
+        self.statement=statement
+
+    def translate(self):
+
+        expression=self.expression.translate()
+        statement=self.statement.translate()
+
+        return self.id+"="+expression+"\n"+statement
+
+class statement4(Node):
+    """statement : FOR NUMBER LOOPS statement END SEMMICOLOM statement"""
+    def __init__(self, number,statement,statement2):
+        self.number=number
+        self.statement=statement
+        self.statement2=statement2
+
+    def translate(self):
+        statement=self.statement.translate()
+        statement2=self.statement2.translate()
+
+        return "for x in range("+str(self.number)+"):\n\t"+statement+"\n"+statement2
+
+class statement5(Node):
+    """statement : CASE caseList ELSE statement END SEMMICOLOM statement"""
+    def __init__(self, caseList,statement,statement2):
+        self.caselist=caseList
+        self.statement=statement
+        self.statement2=statement2
+
+    def translate(self):
+        caseList=self.caselist.translate()
+        statement=self.statement.translate()
+        statement2=self.statement2.translate()
+
+        return caseList+"\nelse:\n\t"+statement+"\n"+statement2
+
+class caseList1(Node):
+    """caseList : WHEN condition THEN statement SEMMICOLOM"""
+    def __init__(self,condition,statement):
+
+        self.condition=condition
+        self.statement=statement
+
+    def translate(self):
+        condition=self.condition.translate()
+        statement=self.statement.translate()
+
+        return "if ("+condition+"):\n\t"+statement
+
+class caseList2(Node):
+    """caseList : WHEN condition THEN statement SEMMICOLOM caseList"""
+    def __init__(self, condition,statement,caseList):
+
+        self.condition = condition
+        self.statement = statement
+        self.caseList=caseList
+
+    def translate(self):
+        condition=self.condition.translate()
+        statement=self.statement.translate()
+        caseList=self.caseList.translate()
+
+        return "if ("+condition+"):\n\t"+statement+"\n"+caseList
+
+#****************************************************************OTHER CLASSES*************************************************************************#
+class Null(Node):
+
+    def __init__(self):
+        self.type="void"
+
+    def translate(self):
+        return ""
+
+class condition(Node):
+    """condition : expression relation expression"""
+    def __init__(self, expression,relation, expression2):
+        self.expression=expression
+        self.relation=relation
+        self.expression2=expression2
+
+    def translate(self):
+
+        expression=self.expression.translate()
+        relation=self.relation.translate()
+        expression2=self.expression2.translate()
+
+        return expression+relation+expression2
+
+class relation1(Node):
+    """relation : EQUAL"""
+    def __init__(self, equal):
+        self.equal=equal
+    def translate(self):
+
+        return "=="
+
+class relation2(Node):
+    """relation : GT"""
+    def __init__(self,gt):
+        self.gt=gt
+
+    def translate(self):
+        return ">"
+
+class relation3(Node):
+    """relation : GTE"""
+    def __init__(self,gte):
+        self.gte=gte
+
+    def translate(self):
+        return ">="
+
+class relation4(Node):
+    """relation : LT"""
+    def __init__(self, lt):
+        self.lt=lt
+
+    def translate(self):
+        return "<"
+
+class relation5(Node):
+    """relation : LTE"""
+    def __init__(self, lte):
+        self.lte
+
+    def translate(self):
+        return "<="
+
+class expression1(Node):
+    """expression : term"""
+    def __init__(self, term):
+        self.term=term
+
+    def translate(self):
+        term=self.term.translate()
+        return term
+
+class expression2(Node):
+    """expression : addOperator term"""
+    def __init__(self, addOperator, term):
+        self.addOperator=addOperator
+        self.term=term
+
+    def translate(self):
+        addOperator=self.addOperator.translate()
+        term=self.term.translate()
+        return addOperator+term
+
+class expression3(Node):
+    """expression : expression addOperator term"""
+    def __init__(self ,expression, addOperator, term):
+        self.expression=expression
+        self.addOperator=addOperator
+        self.term=term
+
+    def translate(self):
+        expression=self.expression.translate()
+        addOperator=self.addOperator.translate()
+        term=self.term.translate()
+        return expression+addOperator+term
+
+class addOperator1(Node):
+    """addOperator : PLUS"""
+    def __init__(self, plus):
+        self.plus=plus
+
+    def translate(self):
+        return "+"
+
+class addOperator2(Node):
+    """addOperator : MINUS"""
+    def __init__(self, minus):
+        self.minus=minus
+
+    def translate(self):
+        return "-"
+
+class term1(Node):
+    """term : factor"""
+    def __init__(self, factor):
+        self.factor=factor
+
+    def translate(self):
+        factor=self.factor.translate()
+        return factor
+
+class term2(Node):
+    """term : term multiOperator factor"""
+    def __init__(self, term,multiOperator, factor):
+        self.term=term
+        self.multiOperator=multiOperator
+        self.factor=factor
+
+    def translate(self):
+        term=self.term.translate()
+        multiOperator=self.multiOperator.translate()
+        factor=self.factor.translate()
+        return term+multiOperator+factor
+
+class multiOperator1(Node):
+    """multiOperator : TIMES"""
+    def __init__(self, times):
+        self.times=times
+
+    def translate(self):
+        return "*"
+
+class multiOperator2(Node):
+    """multiOperator : DIVIDE"""
+    def __init__(self,divide):
+        self.divide=divide
+
+    def translate(self):
+        return "/"
+
+class factor1(Node):
+    """factor : ID"""
+    def __init__(self, id):
         self.id=id
 
     def translate(self):
+        return self.id
 
-        return self.id+"()"
-
-class statement2(Node):
-    """statement : BEGIN statementList END"""
-    def __init__(self,statementlist):
-        self.statementList=statementlist
-
-    def translate(self):
-        statementList=self.statementList.translate()
-
-        return statementList
-
-#*************************************************************************************************************************************
-class statementList1(Node):
-    """statementList : statement """
-    def __init__(self,statement):
-        self.statement=statement
+class factor2(Node):
+    """factor : NUMBER"""
+    def __init__(self, number):
+        self.number=str(number)
 
     def translate(self):
-        statement=self.statement.translate()
+        return self.number
 
-        return statement
-
-class statementList2(Node):
-    """statementList : statementList SEMMICOLOM statement """
-    def __init__(self,statementList,statement):
-        self.statementList=statementList
-        self.statement=statement
+class factor3(Node):
+    """factor : LPAREN expression RPAREN"""
+    def __init__(self, expression):
+        self.expression=expression
 
     def translate(self):
-
-        statementList=self.statementList.translate()
-        statement=self.statement.translate()
-        return statementList+"\n\t"+statement
-
+        expression=self.expression.translate()
+        return "("+expression+")"

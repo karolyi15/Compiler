@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'rightIDCALLBEGINrightPROCEDURErightDECLARErightASSIGNrightUPDATEleftPLUSMINUSleftTIMESDIVIDEleftLPARENRPARENASSIGN BEGIN CALL COMMA COMMENT DECLARE DIVIDE END FOR ID IMPORT LPAREN MINUS NUMBER PLUS PROCEDURE RPAREN SEMMICOLOM TIMES UPDATEprogram : COMMENT blockblock : importDeclare varAssign procedureDeclare statementimportDeclare : IMPORT importDeclareList SEMMICOLOM importDeclareimportDeclare : emptyimportDeclareList :  IDimportDeclareList : importDeclareList COMMA IDvarAssign : DECLARE varAssignList SEMMICOLOM varAssignvarAssign : emptyvarAssignList : ID ASSIGN NUMBERvarAssignList : varAssignList COMMA ID ASSIGN NUMBERprocedureDeclare : PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclareprocedureDeclare : emptystatement : CALL ID LPAREN RPARENstatement : BEGIN statementList ENDstatement : emptystatementList : statement statementList : statementList SEMMICOLOM statement empty :'
+_lr_signature = 'rightIDCALLBEGINDOCrightPROCEDURErightDECLARErightASSIGNleftPLUSMINUSleftTIMESDIVIDEleftLPARENRPARENASSIGN BEGIN CALL CASE COMMA COMMENT DECLARE DIVIDE DOC ELSE END EQUAL FOR GT GTE ID IMPORT LOOPS LPAREN LT LTE MINUS NUMBER PLUS PROCEDURE RPAREN SEMMICOLOM THEN TIMES WHENprogram : COMMENT importDeclare blockblock : varDeclare procedureDeclare statementimportDeclare : IMPORT DOC SEMMICOLOM importDeclareimportDeclare : emptyvarDeclare : DECLARE varDeclareList SEMMICOLOM varDeclarevarDeclare : emptyvarDeclareList : IDvarDeclareList : varDeclareList COMMA IDvarDeclareList : ID ASSIGN NUMBERvarDeclareList : varDeclareList COMMA ID ASSIGN NUMBERprocedureDeclare : PROCEDURE ID LPAREN parameter RPAREN BEGIN block END SEMMICOLOM procedureDeclareprocedureDeclare : emptyparameter : factorparameter : parameter COMMA factorparameter : emptystatement : CALL ID LPAREN parameter RPAREN SEMMICOLOM statementstatement : ID ASSIGN expression SEMMICOLOM statementstatement : emptystatement : FOR NUMBER LOOPS statement END SEMMICOLOM statementstatement : CASE caseList ELSE statement END SEMMICOLOM statementcaseList : WHEN condition THEN statementcaseList : WHEN condition THEN statement caseListcondition : expression relation expressionrelation : EQUALrelation : GTrelation : GTErelation : LTrelation : LTEexpression : termexpression : addOperator termexpression : expression addOperator termaddOperator : PLUSaddOperator : MINUSterm : factorterm : term multiOperator factormultiOperator : TIMESmultiOperator : DIVIDEfactor : IDfactor : NUMBERfactor : LPAREN expression RPARENempty :'
     
-_lr_action_items = {'COMMENT':([0,],[2,]),'$end':([1,2,3,4,6,7,9,12,14,17,19,22,24,27,33,37,41,45,46,],[0,-18,-1,-18,-4,-18,-8,-18,-12,-18,-2,-15,-18,-3,-7,-14,-13,-18,-11,]),'IMPORT':([2,17,],[5,5,]),'DECLARE':([2,4,6,17,24,27,],[-18,8,-4,-18,8,-3,]),'PROCEDURE':([2,4,6,7,9,17,24,27,33,45,],[-18,-18,-4,13,-8,-18,-18,-3,-7,13,]),'CALL':([2,4,6,7,9,12,14,17,21,24,27,33,38,39,45,46,],[-18,-18,-4,-18,-8,20,-12,-18,20,-18,-3,-7,20,20,-18,-11,]),'BEGIN':([2,4,6,7,9,12,14,17,21,24,27,33,38,39,45,46,],[-18,-18,-4,-18,-8,21,-12,-18,21,-18,-3,-7,21,21,-18,-11,]),'ID':([5,8,13,18,20,25,],[11,16,23,28,29,34,]),'SEMMICOLOM':([10,11,15,21,22,28,30,31,35,37,38,39,41,42,43,44,],[17,-5,24,-18,-15,-6,38,-16,-9,-14,-18,-18,-13,-17,45,-10,]),'COMMA':([10,11,15,28,35,44,],[18,-5,25,-6,-9,-10,]),'ASSIGN':([16,34,],[26,40,]),'END':([21,22,30,31,37,38,41,42,],[-18,-15,37,-16,-14,-18,-13,-17,]),'LPAREN':([23,29,],[32,36,]),'NUMBER':([26,40,],[35,44,]),'RPAREN':([32,36,],[39,41,]),}
+_lr_action_items = {'COMMENT':([0,],[2,]),'$end':([1,2,3,5,6,7,9,11,13,16,17,20,24,27,34,56,76,86,87,88,91,92,93,95,96,],[0,-41,-41,-4,-1,-41,-6,-41,-12,-41,-2,-18,-41,-3,-5,-41,-17,-41,-41,-41,-16,-19,-20,-41,-11,]),'IMPORT':([2,16,],[4,4,]),'DECLARE':([2,3,5,16,24,27,84,],[-41,8,-4,-41,8,-3,8,]),'PROCEDURE':([2,3,5,7,9,16,24,27,34,84,95,],[-41,-41,-4,12,-6,-41,-41,-3,-5,-41,12,]),'CALL':([2,3,5,7,9,11,13,16,24,27,34,47,48,56,65,84,86,87,88,95,96,],[-41,-41,-4,-41,-6,18,-12,-41,-41,-3,-5,18,18,18,18,-41,18,18,18,-41,-11,]),'ID':([2,3,5,7,8,9,11,12,13,16,18,24,25,27,29,32,33,34,37,41,43,44,46,47,48,56,57,58,59,60,65,66,67,68,69,70,71,73,84,86,87,88,95,96,],[-41,-41,-4,-41,15,-6,19,23,-12,-41,28,-41,35,-3,38,38,38,-5,38,38,-32,-33,38,19,19,19,38,38,-36,-37,19,38,-24,-25,-26,-27,-28,38,-41,19,19,19,-41,-11,]),'FOR':([2,3,5,7,9,11,13,16,24,27,34,47,48,56,65,84,86,87,88,95,96,],[-41,-41,-4,-41,-6,21,-12,-41,-41,-3,-5,21,21,21,21,-41,21,21,21,-41,-11,]),'CASE':([2,3,5,7,9,11,13,16,24,27,34,47,48,56,65,84,86,87,88,95,96,],[-41,-41,-4,-41,-6,22,-12,-41,-41,-3,-5,22,22,22,22,-41,22,22,22,-41,-11,]),'DOC':([4,],[10,]),'END':([7,9,11,13,17,20,24,34,47,48,56,63,64,76,84,86,87,88,90,91,92,93,95,96,],[-41,-6,-41,-12,-2,-18,-41,-5,-41,-41,-41,80,81,-17,-41,-41,-41,-41,94,-16,-19,-20,-41,-11,]),'SEMMICOLOM':([10,14,15,35,36,38,39,40,42,45,61,74,75,77,78,79,80,81,94,],[16,24,-7,-8,-9,-38,56,-29,-34,-39,-30,-10,86,-31,-35,-40,87,88,95,]),'COMMA':([14,15,33,35,36,37,38,45,51,52,53,55,74,79,85,],[25,-7,-41,-8,-9,-41,-38,-39,73,-13,-15,73,-10,-40,-14,]),'ASSIGN':([15,19,35,],[26,29,54,]),'WHEN':([20,22,56,65,76,82,86,87,88,91,92,93,],[-18,32,-41,-41,-17,32,-41,-41,-41,-16,-19,-20,]),'ELSE':([20,31,56,65,76,82,86,87,88,89,91,92,93,],[-18,48,-41,-41,-17,-21,-41,-41,-41,-22,-16,-19,-20,]),'NUMBER':([21,26,29,32,33,37,41,43,44,46,54,57,58,59,60,66,67,68,69,70,71,73,],[30,36,45,45,45,45,45,-32,-33,45,74,45,45,-36,-37,45,-24,-25,-26,-27,-28,45,]),'LPAREN':([23,28,29,32,33,37,41,43,44,46,57,58,59,60,66,67,68,69,70,71,73,],[33,37,46,46,46,46,46,-32,-33,46,46,46,-36,-37,46,-24,-25,-26,-27,-28,46,]),'PLUS':([29,32,38,39,40,42,45,46,50,61,62,66,67,68,69,70,71,77,78,79,83,],[43,43,-38,43,-29,-34,-39,43,43,-30,43,43,-24,-25,-26,-27,-28,-31,-35,-40,43,]),'MINUS':([29,32,38,39,40,42,45,46,50,61,62,66,67,68,69,70,71,77,78,79,83,],[44,44,-38,44,-29,-34,-39,44,44,-30,44,44,-24,-25,-26,-27,-28,-31,-35,-40,44,]),'LOOPS':([30,],[47,]),'RPAREN':([33,37,38,40,42,45,51,52,53,55,61,62,77,78,79,85,],[-41,-41,-38,-29,-34,-39,72,-13,-15,75,-30,79,-31,-35,-40,-14,]),'TIMES':([38,40,42,45,61,77,78,79,],[-38,59,-34,-39,59,59,-35,-40,]),'DIVIDE':([38,40,42,45,61,77,78,79,],[-38,60,-34,-39,60,60,-35,-40,]),'EQUAL':([38,40,42,45,50,61,77,78,79,],[-38,-29,-34,-39,67,-30,-31,-35,-40,]),'GT':([38,40,42,45,50,61,77,78,79,],[-38,-29,-34,-39,68,-30,-31,-35,-40,]),'GTE':([38,40,42,45,50,61,77,78,79,],[-38,-29,-34,-39,69,-30,-31,-35,-40,]),'LT':([38,40,42,45,50,61,77,78,79,],[-38,-29,-34,-39,70,-30,-31,-35,-40,]),'LTE':([38,40,42,45,50,61,77,78,79,],[-38,-29,-34,-39,71,-30,-31,-35,-40,]),'THEN':([38,40,42,45,49,61,77,78,79,83,],[-38,-29,-34,-39,65,-30,-31,-35,-40,-23,]),'BEGIN':([72,],[84,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'block':([2,],[3,]),'importDeclare':([2,17,],[4,27,]),'empty':([2,4,7,12,17,21,24,38,39,45,],[6,9,14,22,6,22,9,22,22,14,]),'varAssign':([4,24,],[7,33,]),'importDeclareList':([5,],[10,]),'procedureDeclare':([7,45,],[12,46,]),'varAssignList':([8,],[15,]),'statement':([12,21,38,39,],[19,31,42,43,]),'statementList':([21,],[30,]),}
+_lr_goto_items = {'program':([0,],[1,]),'importDeclare':([2,16,],[3,27,]),'empty':([2,3,7,11,16,24,33,37,47,48,56,65,84,86,87,88,95,],[5,9,13,20,5,9,53,53,20,20,20,20,9,20,20,20,13,]),'block':([3,84,],[6,90,]),'varDeclare':([3,24,84,],[7,34,7,]),'procedureDeclare':([7,95,],[11,96,]),'varDeclareList':([8,],[14,]),'statement':([11,47,48,56,65,86,87,88,],[17,63,64,76,82,91,92,93,]),'caseList':([22,82,],[31,89,]),'expression':([29,32,46,66,],[39,50,62,83,]),'term':([29,32,41,46,57,66,],[40,40,61,40,77,40,]),'addOperator':([29,32,39,46,50,62,66,83,],[41,41,57,41,57,57,41,57,]),'factor':([29,32,33,37,41,46,57,58,66,73,],[42,42,52,52,42,42,42,78,42,85,]),'condition':([32,],[49,]),'parameter':([33,37,],[51,55,]),'multiOperator':([40,61,77,],[58,58,58,]),'relation':([50,],[66,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,22 +27,45 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> COMMENT block','program',2,'p_program','SyntacticAnalisis.py',22),
-  ('block -> importDeclare varAssign procedureDeclare statement','block',4,'p_block1','SyntacticAnalisis.py',28),
-  ('importDeclare -> IMPORT importDeclareList SEMMICOLOM importDeclare','importDeclare',4,'p_importDeclare1','SyntacticAnalisis.py',32),
-  ('importDeclare -> empty','importDeclare',1,'p_importDeclare2','SyntacticAnalisis.py',35),
-  ('importDeclareList -> ID','importDeclareList',1,'p_imporDeclareList1','SyntacticAnalisis.py',38),
-  ('importDeclareList -> importDeclareList COMMA ID','importDeclareList',3,'p_imporDecalreList2','SyntacticAnalisis.py',41),
-  ('varAssign -> DECLARE varAssignList SEMMICOLOM varAssign','varAssign',4,'p_varAssingn1','SyntacticAnalisis.py',46),
-  ('varAssign -> empty','varAssign',1,'p_varAssingn2','SyntacticAnalisis.py',50),
-  ('varAssignList -> ID ASSIGN NUMBER','varAssignList',3,'p_varAssignList1','SyntacticAnalisis.py',56),
-  ('varAssignList -> varAssignList COMMA ID ASSIGN NUMBER','varAssignList',5,'p_varAssignList2','SyntacticAnalisis.py',60),
-  ('procedureDeclare -> PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare','procedureDeclare',7,'p_procedureDeclare1','SyntacticAnalisis.py',66),
-  ('procedureDeclare -> empty','procedureDeclare',1,'p_procedureDeclare2','SyntacticAnalisis.py',70),
-  ('statement -> CALL ID LPAREN RPAREN','statement',4,'p_statement1','SyntacticAnalisis.py',76),
-  ('statement -> BEGIN statementList END','statement',3,'p_statement2','SyntacticAnalisis.py',80),
-  ('statement -> empty','statement',1,'p_statement3','SyntacticAnalisis.py',84),
-  ('statementList -> statement','statementList',1,'p_statementList1','SyntacticAnalisis.py',90),
-  ('statementList -> statementList SEMMICOLOM statement','statementList',3,'p_statementList2','SyntacticAnalisis.py',94),
-  ('empty -> <empty>','empty',0,'p_empty','SyntacticAnalisis.py',100),
+  ('program -> COMMENT importDeclare block','program',3,'p_program','SyntacticAnalisis.py',23),
+  ('block -> varDeclare procedureDeclare statement','block',3,'p_block','SyntacticAnalisis.py',29),
+  ('importDeclare -> IMPORT DOC SEMMICOLOM importDeclare','importDeclare',4,'p_importDeclare1','SyntacticAnalisis.py',35),
+  ('importDeclare -> empty','importDeclare',1,'p_importDeclare2','SyntacticAnalisis.py',39),
+  ('varDeclare -> DECLARE varDeclareList SEMMICOLOM varDeclare','varDeclare',4,'p_varDeclare1','SyntacticAnalisis.py',44),
+  ('varDeclare -> empty','varDeclare',1,'p_varDeclare2','SyntacticAnalisis.py',48),
+  ('varDeclareList -> ID','varDeclareList',1,'p_varDeclareList1','SyntacticAnalisis.py',52),
+  ('varDeclareList -> varDeclareList COMMA ID','varDeclareList',3,'p_varDeclareList2','SyntacticAnalisis.py',56),
+  ('varDeclareList -> ID ASSIGN NUMBER','varDeclareList',3,'p_varDeclareList3','SyntacticAnalisis.py',60),
+  ('varDeclareList -> varDeclareList COMMA ID ASSIGN NUMBER','varDeclareList',5,'p_varDeclareList4','SyntacticAnalisis.py',65),
+  ('procedureDeclare -> PROCEDURE ID LPAREN parameter RPAREN BEGIN block END SEMMICOLOM procedureDeclare','procedureDeclare',10,'p_procedureDeclare1','SyntacticAnalisis.py',72),
+  ('procedureDeclare -> empty','procedureDeclare',1,'p_procedureDeclare2','SyntacticAnalisis.py',76),
+  ('parameter -> factor','parameter',1,'p_parameter1','SyntacticAnalisis.py',80),
+  ('parameter -> parameter COMMA factor','parameter',3,'p_parameter2','SyntacticAnalisis.py',84),
+  ('parameter -> empty','parameter',1,'p_parameter3','SyntacticAnalisis.py',88),
+  ('statement -> CALL ID LPAREN parameter RPAREN SEMMICOLOM statement','statement',7,'p_statement1','SyntacticAnalisis.py',94),
+  ('statement -> ID ASSIGN expression SEMMICOLOM statement','statement',5,'p_statement2','SyntacticAnalisis.py',99),
+  ('statement -> empty','statement',1,'p_statement3','SyntacticAnalisis.py',104),
+  ('statement -> FOR NUMBER LOOPS statement END SEMMICOLOM statement','statement',7,'p_statement4','SyntacticAnalisis.py',109),
+  ('statement -> CASE caseList ELSE statement END SEMMICOLOM statement','statement',7,'p_statement5','SyntacticAnalisis.py',114),
+  ('caseList -> WHEN condition THEN statement','caseList',4,'p_caseList1','SyntacticAnalisis.py',119),
+  ('caseList -> WHEN condition THEN statement caseList','caseList',5,'p_caseList2','SyntacticAnalisis.py',124),
+  ('condition -> expression relation expression','condition',3,'p_condition','SyntacticAnalisis.py',131),
+  ('relation -> EQUAL','relation',1,'p_relation1','SyntacticAnalisis.py',135),
+  ('relation -> GT','relation',1,'p_relation2','SyntacticAnalisis.py',139),
+  ('relation -> GTE','relation',1,'p_relation3','SyntacticAnalisis.py',143),
+  ('relation -> LT','relation',1,'p_relation4','SyntacticAnalisis.py',147),
+  ('relation -> LTE','relation',1,'p_relation5','SyntacticAnalisis.py',151),
+  ('expression -> term','expression',1,'p_expression1','SyntacticAnalisis.py',155),
+  ('expression -> addOperator term','expression',2,'p_expression2','SyntacticAnalisis.py',159),
+  ('expression -> expression addOperator term','expression',3,'p_expression3','SyntacticAnalisis.py',163),
+  ('addOperator -> PLUS','addOperator',1,'p_addOperator1','SyntacticAnalisis.py',167),
+  ('addOperator -> MINUS','addOperator',1,'p_addOperator2','SyntacticAnalisis.py',171),
+  ('term -> factor','term',1,'p_term1','SyntacticAnalisis.py',175),
+  ('term -> term multiOperator factor','term',3,'p_term2','SyntacticAnalisis.py',179),
+  ('multiOperator -> TIMES','multiOperator',1,'p_multiOperator1','SyntacticAnalisis.py',183),
+  ('multiOperator -> DIVIDE','multiOperator',1,'p_multiOperator2','SyntacticAnalisis.py',187),
+  ('factor -> ID','factor',1,'p_factor1','SyntacticAnalisis.py',191),
+  ('factor -> NUMBER','factor',1,'p_factor2','SyntacticAnalisis.py',195),
+  ('factor -> LPAREN expression RPAREN','factor',3,'p_factor3','SyntacticAnalisis.py',199),
+  ('empty -> <empty>','empty',0,'p_empty','SyntacticAnalisis.py',203),
 ]

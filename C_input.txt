@@ -1,16 +1,42 @@
 //test1-este programa es de prueba para el compilador
-import doc1;
-import doc2,doc3;
 
-declare var=0,var2=1;
-declare var3=90;
+import SemanticAnalisis;
+import LexicAnalisis;
 
-procedure testing()
-begin
-call testing2();
-call testing3();
-call testing4();
-end;
+declare var,var2,test=988;
+declare var3;
+declare var4=900;
+
+procedure test()
+    begin
+
+        for 5 loops
+            call print(var);
+        end;
+
+    end;
+
+
+procedure test2()
+    begin
+        declare var2;
+        call test();
+        case
+            when
+                var==0
+            then
+                var=var+5*100;
+                call print(var);
+            when
+                var>0
+            then
+                var=0;
+                call print(var);
+            else
+                call print(var);
+        end;
+    end;
+
 
 
 

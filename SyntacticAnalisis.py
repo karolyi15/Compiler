@@ -1,122 +1,203 @@
 import ply.yacc as yacc
+import sys
 from LexicAnalisis import tokens
-from _Main import readFile
+from _Main import *
 from SemanticAnalisis import *
 
 #error handling from shift/reduce
 #analising most right or most left
 #(cascade)
 precedence=(
-    ("right","ID","CALL","BEGIN"),
+    ("right","ID","CALL","BEGIN","DOC"),
     ("right","PROCEDURE"),
     ("right","DECLARE"),
     ("right","ASSIGN"),
-    ("right","UPDATE"),
     ("left","PLUS","MINUS"),
     ("left","TIMES","DIVIDE"),
     ("left","LPAREN","RPAREN")
     )
 
-#******************************************************************program productions**************************************************************#
+#********************************************************************program productions*****************************************************************************#
 
 def p_program(p):
-    """program : COMMENT block"""
-    print("PROGRAM")
-    p[0]=program(p[1],p[2])
+    """program : COMMENT importDeclare block"""
+    p[0]=program(p[1],p[2],p[3])
 
-#*****************************************************************block productions*****************************************************************#
+#*************************************************************************block productions*************************************************************************#
 
-def p_block1(p):
-    """block : importDeclare varAssign procedureDeclare statement"""
-    print("BLOCK1")
-    p[0]=block1(p[1],p[2],p[3],p[4])
-#******************************************************************import declare*******************************************************************#
+def p_block(p):
+    """block : varDeclare procedureDeclare statement"""
+
+    p[0]=block(p[1],p[2],p[3])
+
+#**************************************************************************import declare***************************************************************************#
 def p_importDeclare1(p):
-    """importDeclare : IMPORT importDeclareList SEMMICOLOM importDeclare"""
-    print("importDeclare1")
-    p[0]=importDeclare1(p[1],p[2],p[4])
+    """importDeclare : IMPORT DOC SEMMICOLOM importDeclare"""
+    p[0]=importDeclare(p[2],p[4])
 
 def p_importDeclare2(p):
     """importDeclare : empty"""
-    print("importDeclare_empty")
     p[0]=Null()
-#***************************************************************import declare list****************************************************************#
-def p_imporDeclareList1(p):
-    """importDeclareList :  ID"""
-    print("importDeclareList1")
-    p[0]=importDeclareList1(p[1])
+#*********************************************************************varDeclare productions************************************************************************#
 
-def p_imporDecalreList2(p):
-    """importDeclareList : importDeclareList COMMA ID"""
-    print("importDeclareList2")
-    p[0]=imporDecalreList2(p[1],p[2],p[3])
+def p_varDeclare1(p):
+    """varDeclare : DECLARE varDeclareList SEMMICOLOM varDeclare"""
+    p[0]=varDeclare1(p[2],p[4])
 
-#****************************************************************varAssign productions**************************************************************#
-
-def p_varAssingn1(p):
-    """varAssign : DECLARE varAssignList SEMMICOLOM varAssign"""
-    print("VARASSIGN1")
-    p[0]= varAssingn1(p[2],p[4])
-
-def p_varAssingn2(p):
-    """varAssign : empty"""
-    print("VARASSIGN2_empty")
+def p_varDeclare2(p):
+    """varDeclare : empty"""
     p[0]=Null()
 
-#**************************************************************varAssignlist productions************************************************************#
+def p_varDeclareList1(p):
+    """varDeclareList : ID"""
+    p[0]=varDeclareList1(p[1])
 
-def p_varAssignList1(p):
-    """varAssignList : ID ASSIGN NUMBER"""
-    print("VARASSIGNLIST1")
-    p[0]=varAssignList1(p[1],p[3])
+def p_varDeclareList2(p):
+    """varDeclareList : varDeclareList COMMA ID"""
+    p[0]=varDeclareList2(p[1],p[3])
 
-def p_varAssignList2(p):
-    """varAssignList : varAssignList COMMA ID ASSIGN NUMBER"""
-    print("VARASSIGNLIST2")
-    p[0]=varAssignList2(p[1],p[3],p[5])
+def p_varDeclareList3(p):
+    """varDeclareList : ID ASSIGN NUMBER"""
 
-#**************************************************************procedureDeclare productions**********************************************************#
+    p[0]=varDeclareList3(p[1],p[3])
+
+def p_varDeclareList4(p):
+    """varDeclareList : varDeclareList COMMA ID ASSIGN NUMBER"""
+
+    p[0]=varDeclareList4(p[1],p[3],p[5])
+
+#**************************************************************procedureDeclare productions************************************************************************#
 
 def p_procedureDeclare1(p):
-    """procedureDeclare : PROCEDURE ID LPAREN RPAREN statement SEMMICOLOM procedureDeclare"""
-    print("PROCEDUREDECLARE1")
-    p[0]=procedureDeclare1(p[2],p[5],p[7])
+    """procedureDeclare : PROCEDURE ID LPAREN parameter RPAREN BEGIN block END SEMMICOLOM procedureDeclare"""
+    p[0]=procedureDeclare(p[2],p[4],p[7],p[10])
 
 def p_procedureDeclare2(p):
     """procedureDeclare : empty"""
-    print("PROCEDUREDECLARE2_empty")
     p[0]=Null()
 
-#**************************************************************statement productions******************************************************************#
+def p_parameter1(p):
+    """parameter : factor"""
+    p[0]=parameter1(p[1])
+
+def p_parameter2(p):
+    """parameter : parameter COMMA factor"""
+    p[0]=parameter2(p[1],p[3])
+
+def p_parameter3(p):
+    """parameter : empty"""
+    p[0]=Null()
+
+#*********************************************************************statement productions***********************************************************************#
 
 def p_statement1(p):
-    """statement : CALL ID LPAREN RPAREN"""
-    print("STATEMENT1")
-    p[0]=statement1(p[2])
+    """statement : CALL ID LPAREN parameter RPAREN SEMMICOLOM statement"""
+
+    p[0]=statement1(p[2],p[4],p[7])
 
 def p_statement2(p):
-    """statement : BEGIN statementList END"""
-    print("STATEMENT2")
-    p[0]=statement2(p[2])
+    """statement : ID ASSIGN expression SEMMICOLOM statement"""
+
+    p[0]=statement2(p[1],p[3],p[5])
 
 def p_statement3(p):
     """statement : empty"""
-    print("STATEMENT3_empty")
+
     p[0]=Null()
 
-#*****************************************************************statementList productions***********************************************************#
+def p_statement4(p):
+    """statement : FOR NUMBER LOOPS statement END SEMMICOLOM statement"""
 
-def p_statementList1(p):
-    """statementList : statement """
-    print("STATEMENTLIST1")
-    p[0]=statementList1(p[1])
+    p[0]=statement4(p[2],p[4],p[7])
 
-def p_statementList2(p):
-    """statementList : statementList SEMMICOLOM statement """
-    print("STATEMENTLIST2")
-    p[0]=statementList2(p[1],p[3])
+def p_statement5(p):
+    """statement : CASE caseList ELSE statement END SEMMICOLOM statement"""
 
-#*****************************************************************other productions*******************************************************************#
+    p[0]=statement5(p[2],p[4],p[7])
+
+def p_caseList1(p):
+    """caseList : WHEN condition THEN statement"""
+
+    p[0]=caseList1(p[2],p[4])
+
+def p_caseList2(p):
+    """caseList : WHEN condition THEN statement caseList"""
+
+    p[0]=caseList2(p[2],p[4],p[5])
+
+#***********************************************************************other productions*************************************************************************#
+
+def p_condition(p):
+    """condition : expression relation expression"""
+    p[0]=condition(p[1],p[2],p[3])
+
+def p_relation1(p):
+    """relation : EQUAL"""
+    p[0]=relation1(p[1])
+
+def p_relation2(p):
+    """relation : GT"""
+    p[0]=relation2(p[1])
+
+def p_relation3(p):
+    """relation : GTE"""
+    p[0] = relation3(p[1])
+
+def p_relation4(p):
+    """relation : LT"""
+    p[0] = relation4(p[1])
+
+def p_relation5(p):
+    """relation : LTE"""
+    p[0] = relation5(p[1])
+
+def p_expression1(p):
+    """expression : term"""
+    p[0]=expression1(p[1])
+
+def p_expression2(p):
+    """expression : addOperator term"""
+    p[0]=expression2(p[1],p[2])
+
+def p_expression3(p):
+    """expression : expression addOperator term"""
+    p[0]=expression3(p[1],p[2],p[3])
+
+def p_addOperator1(p):
+    """addOperator : PLUS"""
+    p[0]=addOperator1(p[1])
+
+def p_addOperator2(p):
+    """addOperator : MINUS"""
+    p[0] = addOperator2(p[1])
+
+def p_term1(p):
+    """term : factor"""
+    p[0]=term1(p[1])
+
+def p_term2(p):
+    """term : term multiOperator factor"""
+    p[0] = term2(p[1],p[2],p[3])
+
+def p_multiOperator1(p):
+    """multiOperator : TIMES"""
+    p[0]=multiOperator1(p[1])
+
+def p_multiOperator2(p):
+    """multiOperator : DIVIDE"""
+    p[0] = multiOperator2(p[1])
+
+def p_factor1(p):
+    """factor : ID"""
+    p[0]=factor1(p[1])
+
+def p_factor2(p):
+    """factor : NUMBER"""
+    p[0] = factor2(p[1])
+
+def p_factor3(p):
+    """factor : LPAREN expression RPAREN"""
+    p[0] = factor3(p[2])
 
 def p_empty(p):
     """empty :"""
@@ -124,19 +205,17 @@ def p_empty(p):
 
 def p_error(p):
     print("Error de sintaxis",p)
-    print("Error en la linea"+str(p.lineno))
+    print("Error en la linea "+str(p.lineno))
+    sys.exit(1)
 
+#**************************************************************************OUTPUT********************************************************************************#
 
 parser= yacc.yacc()
 result=parser.parse(readFile("C_input.txt"))
 
-#result.printer(" ")
-#print(result.translate()
+writeFile("C_output.py",result.translate())
+#runFile("C_output.py")
 
-compiledFile=open("C_output.txt","w")
-compiledFile.write(result.translate())
-compiledFile.close()
-
-print(result)
+#print(result)
 
 
