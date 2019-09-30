@@ -59,13 +59,12 @@ def p_varDeclareList2(p):
 
 def p_varDeclareList3(p):
     """varDeclareList : ID ASSIGN NUMBER"""
-
     p[0]=varDeclareList3(p[1],p[3])
 
 def p_varDeclareList4(p):
     """varDeclareList : varDeclareList COMMA ID ASSIGN NUMBER"""
-
     p[0]=varDeclareList4(p[1],p[3],p[5])
+
 
 #**************************************************************procedureDeclare productions************************************************************************#
 
@@ -115,6 +114,10 @@ def p_statement5(p):
     """statement : CASE caseList ELSE statement END SEMMICOLOM statement"""
 
     p[0]=statement5(p[2],p[4],p[7])
+
+def p_statement6(p):
+    """statement : ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement"""
+    p[0] = statement6(p[1], p[4], p[6],p[9])
 
 def p_caseList1(p):
     """caseList : WHEN condition THEN statement"""

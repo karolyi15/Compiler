@@ -23,79 +23,80 @@ Rule 17    statement -> ID ASSIGN expression SEMMICOLOM statement
 Rule 18    statement -> empty
 Rule 19    statement -> FOR NUMBER LOOPS statement END SEMMICOLOM statement
 Rule 20    statement -> CASE caseList ELSE statement END SEMMICOLOM statement
-Rule 21    caseList -> WHEN condition THEN statement
-Rule 22    caseList -> WHEN condition THEN statement caseList
-Rule 23    condition -> expression relation expression
-Rule 24    relation -> EQUAL
-Rule 25    relation -> GT
-Rule 26    relation -> GTE
-Rule 27    relation -> LT
-Rule 28    relation -> LTE
-Rule 29    expression -> term
-Rule 30    expression -> addOperator term
-Rule 31    expression -> expression addOperator term
-Rule 32    addOperator -> PLUS
-Rule 33    addOperator -> MINUS
-Rule 34    term -> factor
-Rule 35    term -> term multiOperator factor
-Rule 36    multiOperator -> TIMES
-Rule 37    multiOperator -> DIVIDE
-Rule 38    factor -> ID
-Rule 39    factor -> NUMBER
-Rule 40    factor -> LPAREN expression RPAREN
-Rule 41    empty -> <empty>
+Rule 21    statement -> ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+Rule 22    caseList -> WHEN condition THEN statement
+Rule 23    caseList -> WHEN condition THEN statement caseList
+Rule 24    condition -> expression relation expression
+Rule 25    relation -> EQUAL
+Rule 26    relation -> GT
+Rule 27    relation -> GTE
+Rule 28    relation -> LT
+Rule 29    relation -> LTE
+Rule 30    expression -> term
+Rule 31    expression -> addOperator term
+Rule 32    expression -> expression addOperator term
+Rule 33    addOperator -> PLUS
+Rule 34    addOperator -> MINUS
+Rule 35    term -> factor
+Rule 36    term -> term multiOperator factor
+Rule 37    multiOperator -> TIMES
+Rule 38    multiOperator -> DIVIDE
+Rule 39    factor -> ID
+Rule 40    factor -> NUMBER
+Rule 41    factor -> LPAREN expression RPAREN
+Rule 42    empty -> <empty>
 
 Terminals, with rules where they appear
 
-ASSIGN               : 9 10 17
+ASSIGN               : 9 10 17 21
 BEGIN                : 11
-CALL                 : 16
+CALL                 : 16 21
 CASE                 : 20
 COMMA                : 8 10 14
 COMMENT              : 1
 DECLARE              : 5
-DIVIDE               : 37
+DIVIDE               : 38
 DOC                  : 3
 ELSE                 : 20
 END                  : 11 19 20
-EQUAL                : 24
+EQUAL                : 25
 FOR                  : 19
-GT                   : 25
-GTE                  : 26
-ID                   : 7 8 9 10 11 16 17 38
+GT                   : 26
+GTE                  : 27
+ID                   : 7 8 9 10 11 16 17 21 21 39
 IMPORT               : 3
 LOOPS                : 19
-LPAREN               : 11 16 40
-LT                   : 27
-LTE                  : 28
-MINUS                : 33
-NUMBER               : 9 10 19 39
-PLUS                 : 32
+LPAREN               : 11 16 21 41
+LT                   : 28
+LTE                  : 29
+MINUS                : 34
+NUMBER               : 9 10 19 40
+PLUS                 : 33
 PROCEDURE            : 11
-RPAREN               : 11 16 40
-SEMMICOLOM           : 3 5 11 16 17 19 20
-THEN                 : 21 22
-TIMES                : 36
-WHEN                 : 21 22
+RPAREN               : 11 16 21 41
+SEMMICOLOM           : 3 5 11 16 17 19 20 21
+THEN                 : 22 23
+TIMES                : 37
+WHEN                 : 22 23
 error                : 
 
 Nonterminals, with rules where they appear
 
-addOperator          : 30 31
+addOperator          : 31 32
 block                : 1 11
-caseList             : 20 22
-condition            : 21 22
+caseList             : 20 23
+condition            : 22 23
 empty                : 4 6 12 15 18
-expression           : 17 23 23 31 40
-factor               : 13 14 34 35
+expression           : 17 24 24 32 41
+factor               : 13 14 35 36
 importDeclare        : 1 3
-multiOperator        : 35
-parameter            : 11 14 16
+multiOperator        : 36
+parameter            : 11 14 16 21
 procedureDeclare     : 2 11
 program              : 0
-relation             : 23
-statement            : 2 16 17 19 19 20 20 21 22
-term                 : 29 30 31 35
+relation             : 24
+statement            : 2 16 17 19 19 20 20 21 22 23
+term                 : 30 31 32 36
 varDeclare           : 2 5
 varDeclareList       : 5 8 10
 
@@ -121,16 +122,16 @@ state 2
     (1) program -> COMMENT . importDeclare block
     (3) importDeclare -> . IMPORT DOC SEMMICOLOM importDeclare
     (4) importDeclare -> . empty
-    (41) empty -> .
+    (42) empty -> .
 
     IMPORT          shift and go to state 4
-    DECLARE         reduce using rule 41 (empty -> .)
-    PROCEDURE       reduce using rule 41 (empty -> .)
-    CALL            reduce using rule 41 (empty -> .)
-    ID              reduce using rule 41 (empty -> .)
-    FOR             reduce using rule 41 (empty -> .)
-    CASE            reduce using rule 41 (empty -> .)
-    $end            reduce using rule 41 (empty -> .)
+    DECLARE         reduce using rule 42 (empty -> .)
+    PROCEDURE       reduce using rule 42 (empty -> .)
+    CALL            reduce using rule 42 (empty -> .)
+    ID              reduce using rule 42 (empty -> .)
+    FOR             reduce using rule 42 (empty -> .)
+    CASE            reduce using rule 42 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
 
     importDeclare                  shift and go to state 3
     empty                          shift and go to state 5
@@ -141,15 +142,15 @@ state 3
     (2) block -> . varDeclare procedureDeclare statement
     (5) varDeclare -> . DECLARE varDeclareList SEMMICOLOM varDeclare
     (6) varDeclare -> . empty
-    (41) empty -> .
+    (42) empty -> .
 
     DECLARE         shift and go to state 8
-    PROCEDURE       reduce using rule 41 (empty -> .)
-    CALL            reduce using rule 41 (empty -> .)
-    ID              reduce using rule 41 (empty -> .)
-    FOR             reduce using rule 41 (empty -> .)
-    CASE            reduce using rule 41 (empty -> .)
-    $end            reduce using rule 41 (empty -> .)
+    PROCEDURE       reduce using rule 42 (empty -> .)
+    CALL            reduce using rule 42 (empty -> .)
+    ID              reduce using rule 42 (empty -> .)
+    FOR             reduce using rule 42 (empty -> .)
+    CASE            reduce using rule 42 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
 
     block                          shift and go to state 6
     varDeclare                     shift and go to state 7
@@ -187,15 +188,15 @@ state 7
     (2) block -> varDeclare . procedureDeclare statement
     (11) procedureDeclare -> . PROCEDURE ID LPAREN parameter RPAREN BEGIN block END SEMMICOLOM procedureDeclare
     (12) procedureDeclare -> . empty
-    (41) empty -> .
+    (42) empty -> .
 
     PROCEDURE       shift and go to state 12
-    CALL            reduce using rule 41 (empty -> .)
-    ID              reduce using rule 41 (empty -> .)
-    FOR             reduce using rule 41 (empty -> .)
-    CASE            reduce using rule 41 (empty -> .)
-    $end            reduce using rule 41 (empty -> .)
-    END             reduce using rule 41 (empty -> .)
+    CALL            reduce using rule 42 (empty -> .)
+    ID              reduce using rule 42 (empty -> .)
+    FOR             reduce using rule 42 (empty -> .)
+    CASE            reduce using rule 42 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
 
     procedureDeclare               shift and go to state 11
     empty                          shift and go to state 13
@@ -240,14 +241,15 @@ state 11
     (18) statement -> . empty
     (19) statement -> . FOR NUMBER LOOPS statement END SEMMICOLOM statement
     (20) statement -> . CASE caseList ELSE statement END SEMMICOLOM statement
-    (41) empty -> .
+    (21) statement -> . ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (42) empty -> .
 
     CALL            shift and go to state 18
     ID              shift and go to state 19
     FOR             shift and go to state 21
     CASE            shift and go to state 22
-    $end            reduce using rule 41 (empty -> .)
-    END             reduce using rule 41 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
 
     statement                      shift and go to state 17
     empty                          shift and go to state 20
@@ -296,16 +298,16 @@ state 16
     (3) importDeclare -> IMPORT DOC SEMMICOLOM . importDeclare
     (3) importDeclare -> . IMPORT DOC SEMMICOLOM importDeclare
     (4) importDeclare -> . empty
-    (41) empty -> .
+    (42) empty -> .
 
     IMPORT          shift and go to state 4
-    DECLARE         reduce using rule 41 (empty -> .)
-    PROCEDURE       reduce using rule 41 (empty -> .)
-    CALL            reduce using rule 41 (empty -> .)
-    ID              reduce using rule 41 (empty -> .)
-    FOR             reduce using rule 41 (empty -> .)
-    CASE            reduce using rule 41 (empty -> .)
-    $end            reduce using rule 41 (empty -> .)
+    DECLARE         reduce using rule 42 (empty -> .)
+    PROCEDURE       reduce using rule 42 (empty -> .)
+    CALL            reduce using rule 42 (empty -> .)
+    ID              reduce using rule 42 (empty -> .)
+    FOR             reduce using rule 42 (empty -> .)
+    CASE            reduce using rule 42 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
 
     importDeclare                  shift and go to state 27
     empty                          shift and go to state 5
@@ -328,6 +330,7 @@ state 18
 state 19
 
     (17) statement -> ID . ASSIGN expression SEMMICOLOM statement
+    (21) statement -> ID . ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
 
     ASSIGN          shift and go to state 29
 
@@ -352,8 +355,8 @@ state 21
 state 22
 
     (20) statement -> CASE . caseList ELSE statement END SEMMICOLOM statement
-    (21) caseList -> . WHEN condition THEN statement
-    (22) caseList -> . WHEN condition THEN statement caseList
+    (22) caseList -> . WHEN condition THEN statement
+    (23) caseList -> . WHEN condition THEN statement caseList
 
     WHEN            shift and go to state 32
 
@@ -371,16 +374,16 @@ state 24
     (5) varDeclare -> DECLARE varDeclareList SEMMICOLOM . varDeclare
     (5) varDeclare -> . DECLARE varDeclareList SEMMICOLOM varDeclare
     (6) varDeclare -> . empty
-    (41) empty -> .
+    (42) empty -> .
 
     DECLARE         shift and go to state 8
-    PROCEDURE       reduce using rule 41 (empty -> .)
-    CALL            reduce using rule 41 (empty -> .)
-    ID              reduce using rule 41 (empty -> .)
-    FOR             reduce using rule 41 (empty -> .)
-    CASE            reduce using rule 41 (empty -> .)
-    $end            reduce using rule 41 (empty -> .)
-    END             reduce using rule 41 (empty -> .)
+    PROCEDURE       reduce using rule 42 (empty -> .)
+    CALL            reduce using rule 42 (empty -> .)
+    ID              reduce using rule 42 (empty -> .)
+    FOR             reduce using rule 42 (empty -> .)
+    CASE            reduce using rule 42 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
 
     varDeclare                     shift and go to state 34
     empty                          shift and go to state 9
@@ -423,69 +426,71 @@ state 28
 state 29
 
     (17) statement -> ID ASSIGN . expression SEMMICOLOM statement
-    (29) expression -> . term
-    (30) expression -> . addOperator term
-    (31) expression -> . expression addOperator term
-    (34) term -> . factor
-    (35) term -> . term multiOperator factor
-    (32) addOperator -> . PLUS
-    (33) addOperator -> . MINUS
-    (38) factor -> . ID
-    (39) factor -> . NUMBER
-    (40) factor -> . LPAREN expression RPAREN
+    (21) statement -> ID ASSIGN . CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (30) expression -> . term
+    (31) expression -> . addOperator term
+    (32) expression -> . expression addOperator term
+    (35) term -> . factor
+    (36) term -> . term multiOperator factor
+    (33) addOperator -> . PLUS
+    (34) addOperator -> . MINUS
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
 
-    PLUS            shift and go to state 43
-    MINUS           shift and go to state 44
+    CALL            shift and go to state 40
+    PLUS            shift and go to state 45
+    MINUS           shift and go to state 46
     ID              shift and go to state 38
-    NUMBER          shift and go to state 45
-    LPAREN          shift and go to state 46
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
 
     expression                     shift and go to state 39
-    term                           shift and go to state 40
-    addOperator                    shift and go to state 41
-    factor                         shift and go to state 42
+    term                           shift and go to state 42
+    addOperator                    shift and go to state 43
+    factor                         shift and go to state 44
 
 state 30
 
     (19) statement -> FOR NUMBER . LOOPS statement END SEMMICOLOM statement
 
-    LOOPS           shift and go to state 47
+    LOOPS           shift and go to state 48
 
 
 state 31
 
     (20) statement -> CASE caseList . ELSE statement END SEMMICOLOM statement
 
-    ELSE            shift and go to state 48
+    ELSE            shift and go to state 49
 
 
 state 32
 
-    (21) caseList -> WHEN . condition THEN statement
-    (22) caseList -> WHEN . condition THEN statement caseList
-    (23) condition -> . expression relation expression
-    (29) expression -> . term
-    (30) expression -> . addOperator term
-    (31) expression -> . expression addOperator term
-    (34) term -> . factor
-    (35) term -> . term multiOperator factor
-    (32) addOperator -> . PLUS
-    (33) addOperator -> . MINUS
-    (38) factor -> . ID
-    (39) factor -> . NUMBER
-    (40) factor -> . LPAREN expression RPAREN
+    (22) caseList -> WHEN . condition THEN statement
+    (23) caseList -> WHEN . condition THEN statement caseList
+    (24) condition -> . expression relation expression
+    (30) expression -> . term
+    (31) expression -> . addOperator term
+    (32) expression -> . expression addOperator term
+    (35) term -> . factor
+    (36) term -> . term multiOperator factor
+    (33) addOperator -> . PLUS
+    (34) addOperator -> . MINUS
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
 
-    PLUS            shift and go to state 43
-    MINUS           shift and go to state 44
+    PLUS            shift and go to state 45
+    MINUS           shift and go to state 46
     ID              shift and go to state 38
-    NUMBER          shift and go to state 45
-    LPAREN          shift and go to state 46
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
 
-    condition                      shift and go to state 49
-    expression                     shift and go to state 50
-    term                           shift and go to state 40
-    addOperator                    shift and go to state 41
-    factor                         shift and go to state 42
+    condition                      shift and go to state 50
+    expression                     shift and go to state 51
+    term                           shift and go to state 42
+    addOperator                    shift and go to state 43
+    factor                         shift and go to state 44
 
 state 33
 
@@ -493,20 +498,20 @@ state 33
     (13) parameter -> . factor
     (14) parameter -> . parameter COMMA factor
     (15) parameter -> . empty
-    (38) factor -> . ID
-    (39) factor -> . NUMBER
-    (40) factor -> . LPAREN expression RPAREN
-    (41) empty -> .
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
+    (42) empty -> .
 
     ID              shift and go to state 38
-    NUMBER          shift and go to state 45
-    LPAREN          shift and go to state 46
-    RPAREN          reduce using rule 41 (empty -> .)
-    COMMA           reduce using rule 41 (empty -> .)
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
+    RPAREN          reduce using rule 42 (empty -> .)
+    COMMA           reduce using rule 42 (empty -> .)
 
-    parameter                      shift and go to state 51
-    factor                         shift and go to state 52
-    empty                          shift and go to state 53
+    parameter                      shift and go to state 52
+    factor                         shift and go to state 53
+    empty                          shift and go to state 54
 
 state 34
 
@@ -528,7 +533,7 @@ state 35
 
     SEMMICOLOM      reduce using rule 8 (varDeclareList -> varDeclareList COMMA ID .)
     COMMA           reduce using rule 8 (varDeclareList -> varDeclareList COMMA ID .)
-    ASSIGN          shift and go to state 54
+    ASSIGN          shift and go to state 55
 
 
 state 36
@@ -545,172 +550,179 @@ state 37
     (13) parameter -> . factor
     (14) parameter -> . parameter COMMA factor
     (15) parameter -> . empty
-    (38) factor -> . ID
-    (39) factor -> . NUMBER
-    (40) factor -> . LPAREN expression RPAREN
-    (41) empty -> .
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
+    (42) empty -> .
 
     ID              shift and go to state 38
-    NUMBER          shift and go to state 45
-    LPAREN          shift and go to state 46
-    RPAREN          reduce using rule 41 (empty -> .)
-    COMMA           reduce using rule 41 (empty -> .)
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
+    RPAREN          reduce using rule 42 (empty -> .)
+    COMMA           reduce using rule 42 (empty -> .)
 
-    parameter                      shift and go to state 55
-    factor                         shift and go to state 52
-    empty                          shift and go to state 53
+    parameter                      shift and go to state 56
+    factor                         shift and go to state 53
+    empty                          shift and go to state 54
 
 state 38
 
-    (38) factor -> ID .
+    (39) factor -> ID .
 
-    TIMES           reduce using rule 38 (factor -> ID .)
-    DIVIDE          reduce using rule 38 (factor -> ID .)
-    SEMMICOLOM      reduce using rule 38 (factor -> ID .)
-    PLUS            reduce using rule 38 (factor -> ID .)
-    MINUS           reduce using rule 38 (factor -> ID .)
-    EQUAL           reduce using rule 38 (factor -> ID .)
-    GT              reduce using rule 38 (factor -> ID .)
-    GTE             reduce using rule 38 (factor -> ID .)
-    LT              reduce using rule 38 (factor -> ID .)
-    LTE             reduce using rule 38 (factor -> ID .)
-    RPAREN          reduce using rule 38 (factor -> ID .)
-    COMMA           reduce using rule 38 (factor -> ID .)
-    THEN            reduce using rule 38 (factor -> ID .)
+    TIMES           reduce using rule 39 (factor -> ID .)
+    DIVIDE          reduce using rule 39 (factor -> ID .)
+    SEMMICOLOM      reduce using rule 39 (factor -> ID .)
+    PLUS            reduce using rule 39 (factor -> ID .)
+    MINUS           reduce using rule 39 (factor -> ID .)
+    EQUAL           reduce using rule 39 (factor -> ID .)
+    GT              reduce using rule 39 (factor -> ID .)
+    GTE             reduce using rule 39 (factor -> ID .)
+    LT              reduce using rule 39 (factor -> ID .)
+    LTE             reduce using rule 39 (factor -> ID .)
+    RPAREN          reduce using rule 39 (factor -> ID .)
+    COMMA           reduce using rule 39 (factor -> ID .)
+    THEN            reduce using rule 39 (factor -> ID .)
 
 
 state 39
 
     (17) statement -> ID ASSIGN expression . SEMMICOLOM statement
-    (31) expression -> expression . addOperator term
-    (32) addOperator -> . PLUS
-    (33) addOperator -> . MINUS
+    (32) expression -> expression . addOperator term
+    (33) addOperator -> . PLUS
+    (34) addOperator -> . MINUS
 
-    SEMMICOLOM      shift and go to state 56
-    PLUS            shift and go to state 43
-    MINUS           shift and go to state 44
+    SEMMICOLOM      shift and go to state 57
+    PLUS            shift and go to state 45
+    MINUS           shift and go to state 46
 
-    addOperator                    shift and go to state 57
+    addOperator                    shift and go to state 58
 
 state 40
 
-    (29) expression -> term .
-    (35) term -> term . multiOperator factor
-    (36) multiOperator -> . TIMES
-    (37) multiOperator -> . DIVIDE
+    (21) statement -> ID ASSIGN CALL . ID LPAREN parameter RPAREN SEMMICOLOM statement
 
-    SEMMICOLOM      reduce using rule 29 (expression -> term .)
-    PLUS            reduce using rule 29 (expression -> term .)
-    MINUS           reduce using rule 29 (expression -> term .)
-    EQUAL           reduce using rule 29 (expression -> term .)
-    GT              reduce using rule 29 (expression -> term .)
-    GTE             reduce using rule 29 (expression -> term .)
-    LT              reduce using rule 29 (expression -> term .)
-    LTE             reduce using rule 29 (expression -> term .)
-    RPAREN          reduce using rule 29 (expression -> term .)
-    THEN            reduce using rule 29 (expression -> term .)
-    TIMES           shift and go to state 59
-    DIVIDE          shift and go to state 60
+    ID              shift and go to state 59
 
-    multiOperator                  shift and go to state 58
 
 state 41
 
-    (30) expression -> addOperator . term
-    (34) term -> . factor
-    (35) term -> . term multiOperator factor
-    (38) factor -> . ID
-    (39) factor -> . NUMBER
-    (40) factor -> . LPAREN expression RPAREN
+    (41) factor -> LPAREN . expression RPAREN
+    (30) expression -> . term
+    (31) expression -> . addOperator term
+    (32) expression -> . expression addOperator term
+    (35) term -> . factor
+    (36) term -> . term multiOperator factor
+    (33) addOperator -> . PLUS
+    (34) addOperator -> . MINUS
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
 
+    PLUS            shift and go to state 45
+    MINUS           shift and go to state 46
     ID              shift and go to state 38
-    NUMBER          shift and go to state 45
-    LPAREN          shift and go to state 46
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
 
-    term                           shift and go to state 61
-    factor                         shift and go to state 42
+    expression                     shift and go to state 60
+    term                           shift and go to state 42
+    addOperator                    shift and go to state 43
+    factor                         shift and go to state 44
 
 state 42
 
-    (34) term -> factor .
+    (30) expression -> term .
+    (36) term -> term . multiOperator factor
+    (37) multiOperator -> . TIMES
+    (38) multiOperator -> . DIVIDE
 
-    TIMES           reduce using rule 34 (term -> factor .)
-    DIVIDE          reduce using rule 34 (term -> factor .)
-    SEMMICOLOM      reduce using rule 34 (term -> factor .)
-    PLUS            reduce using rule 34 (term -> factor .)
-    MINUS           reduce using rule 34 (term -> factor .)
-    EQUAL           reduce using rule 34 (term -> factor .)
-    GT              reduce using rule 34 (term -> factor .)
-    GTE             reduce using rule 34 (term -> factor .)
-    LT              reduce using rule 34 (term -> factor .)
-    LTE             reduce using rule 34 (term -> factor .)
-    RPAREN          reduce using rule 34 (term -> factor .)
-    THEN            reduce using rule 34 (term -> factor .)
+    SEMMICOLOM      reduce using rule 30 (expression -> term .)
+    PLUS            reduce using rule 30 (expression -> term .)
+    MINUS           reduce using rule 30 (expression -> term .)
+    EQUAL           reduce using rule 30 (expression -> term .)
+    GT              reduce using rule 30 (expression -> term .)
+    GTE             reduce using rule 30 (expression -> term .)
+    LT              reduce using rule 30 (expression -> term .)
+    LTE             reduce using rule 30 (expression -> term .)
+    RPAREN          reduce using rule 30 (expression -> term .)
+    THEN            reduce using rule 30 (expression -> term .)
+    TIMES           shift and go to state 62
+    DIVIDE          shift and go to state 63
 
+    multiOperator                  shift and go to state 61
 
 state 43
 
-    (32) addOperator -> PLUS .
+    (31) expression -> addOperator . term
+    (35) term -> . factor
+    (36) term -> . term multiOperator factor
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
 
-    ID              reduce using rule 32 (addOperator -> PLUS .)
-    NUMBER          reduce using rule 32 (addOperator -> PLUS .)
-    LPAREN          reduce using rule 32 (addOperator -> PLUS .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
 
+    term                           shift and go to state 64
+    factor                         shift and go to state 44
 
 state 44
 
-    (33) addOperator -> MINUS .
+    (35) term -> factor .
 
-    ID              reduce using rule 33 (addOperator -> MINUS .)
-    NUMBER          reduce using rule 33 (addOperator -> MINUS .)
-    LPAREN          reduce using rule 33 (addOperator -> MINUS .)
+    TIMES           reduce using rule 35 (term -> factor .)
+    DIVIDE          reduce using rule 35 (term -> factor .)
+    SEMMICOLOM      reduce using rule 35 (term -> factor .)
+    PLUS            reduce using rule 35 (term -> factor .)
+    MINUS           reduce using rule 35 (term -> factor .)
+    EQUAL           reduce using rule 35 (term -> factor .)
+    GT              reduce using rule 35 (term -> factor .)
+    GTE             reduce using rule 35 (term -> factor .)
+    LT              reduce using rule 35 (term -> factor .)
+    LTE             reduce using rule 35 (term -> factor .)
+    RPAREN          reduce using rule 35 (term -> factor .)
+    THEN            reduce using rule 35 (term -> factor .)
 
 
 state 45
 
-    (39) factor -> NUMBER .
+    (33) addOperator -> PLUS .
 
-    TIMES           reduce using rule 39 (factor -> NUMBER .)
-    DIVIDE          reduce using rule 39 (factor -> NUMBER .)
-    SEMMICOLOM      reduce using rule 39 (factor -> NUMBER .)
-    PLUS            reduce using rule 39 (factor -> NUMBER .)
-    MINUS           reduce using rule 39 (factor -> NUMBER .)
-    EQUAL           reduce using rule 39 (factor -> NUMBER .)
-    GT              reduce using rule 39 (factor -> NUMBER .)
-    GTE             reduce using rule 39 (factor -> NUMBER .)
-    LT              reduce using rule 39 (factor -> NUMBER .)
-    LTE             reduce using rule 39 (factor -> NUMBER .)
-    RPAREN          reduce using rule 39 (factor -> NUMBER .)
-    COMMA           reduce using rule 39 (factor -> NUMBER .)
-    THEN            reduce using rule 39 (factor -> NUMBER .)
+    ID              reduce using rule 33 (addOperator -> PLUS .)
+    NUMBER          reduce using rule 33 (addOperator -> PLUS .)
+    LPAREN          reduce using rule 33 (addOperator -> PLUS .)
 
 
 state 46
 
-    (40) factor -> LPAREN . expression RPAREN
-    (29) expression -> . term
-    (30) expression -> . addOperator term
-    (31) expression -> . expression addOperator term
-    (34) term -> . factor
-    (35) term -> . term multiOperator factor
-    (32) addOperator -> . PLUS
-    (33) addOperator -> . MINUS
-    (38) factor -> . ID
-    (39) factor -> . NUMBER
-    (40) factor -> . LPAREN expression RPAREN
+    (34) addOperator -> MINUS .
 
-    PLUS            shift and go to state 43
-    MINUS           shift and go to state 44
-    ID              shift and go to state 38
-    NUMBER          shift and go to state 45
-    LPAREN          shift and go to state 46
+    ID              reduce using rule 34 (addOperator -> MINUS .)
+    NUMBER          reduce using rule 34 (addOperator -> MINUS .)
+    LPAREN          reduce using rule 34 (addOperator -> MINUS .)
 
-    expression                     shift and go to state 62
-    term                           shift and go to state 40
-    addOperator                    shift and go to state 41
-    factor                         shift and go to state 42
 
 state 47
+
+    (40) factor -> NUMBER .
+
+    TIMES           reduce using rule 40 (factor -> NUMBER .)
+    DIVIDE          reduce using rule 40 (factor -> NUMBER .)
+    SEMMICOLOM      reduce using rule 40 (factor -> NUMBER .)
+    PLUS            reduce using rule 40 (factor -> NUMBER .)
+    MINUS           reduce using rule 40 (factor -> NUMBER .)
+    EQUAL           reduce using rule 40 (factor -> NUMBER .)
+    GT              reduce using rule 40 (factor -> NUMBER .)
+    GTE             reduce using rule 40 (factor -> NUMBER .)
+    LT              reduce using rule 40 (factor -> NUMBER .)
+    LTE             reduce using rule 40 (factor -> NUMBER .)
+    RPAREN          reduce using rule 40 (factor -> NUMBER .)
+    COMMA           reduce using rule 40 (factor -> NUMBER .)
+    THEN            reduce using rule 40 (factor -> NUMBER .)
+
+
+state 48
 
     (19) statement -> FOR NUMBER LOOPS . statement END SEMMICOLOM statement
     (16) statement -> . CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
@@ -718,18 +730,19 @@ state 47
     (18) statement -> . empty
     (19) statement -> . FOR NUMBER LOOPS statement END SEMMICOLOM statement
     (20) statement -> . CASE caseList ELSE statement END SEMMICOLOM statement
-    (41) empty -> .
+    (21) statement -> . ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (42) empty -> .
 
     CALL            shift and go to state 18
     ID              shift and go to state 19
     FOR             shift and go to state 21
     CASE            shift and go to state 22
-    END             reduce using rule 41 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
 
-    statement                      shift and go to state 63
+    statement                      shift and go to state 65
     empty                          shift and go to state 20
 
-state 48
+state 49
 
     (20) statement -> CASE caseList ELSE . statement END SEMMICOLOM statement
     (16) statement -> . CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
@@ -737,58 +750,59 @@ state 48
     (18) statement -> . empty
     (19) statement -> . FOR NUMBER LOOPS statement END SEMMICOLOM statement
     (20) statement -> . CASE caseList ELSE statement END SEMMICOLOM statement
-    (41) empty -> .
+    (21) statement -> . ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (42) empty -> .
 
     CALL            shift and go to state 18
     ID              shift and go to state 19
     FOR             shift and go to state 21
     CASE            shift and go to state 22
-    END             reduce using rule 41 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
 
-    statement                      shift and go to state 64
+    statement                      shift and go to state 66
     empty                          shift and go to state 20
-
-state 49
-
-    (21) caseList -> WHEN condition . THEN statement
-    (22) caseList -> WHEN condition . THEN statement caseList
-
-    THEN            shift and go to state 65
-
 
 state 50
 
-    (23) condition -> expression . relation expression
-    (31) expression -> expression . addOperator term
-    (24) relation -> . EQUAL
-    (25) relation -> . GT
-    (26) relation -> . GTE
-    (27) relation -> . LT
-    (28) relation -> . LTE
-    (32) addOperator -> . PLUS
-    (33) addOperator -> . MINUS
+    (22) caseList -> WHEN condition . THEN statement
+    (23) caseList -> WHEN condition . THEN statement caseList
 
-    EQUAL           shift and go to state 67
-    GT              shift and go to state 68
-    GTE             shift and go to state 69
-    LT              shift and go to state 70
-    LTE             shift and go to state 71
-    PLUS            shift and go to state 43
-    MINUS           shift and go to state 44
+    THEN            shift and go to state 67
 
-    relation                       shift and go to state 66
-    addOperator                    shift and go to state 57
 
 state 51
+
+    (24) condition -> expression . relation expression
+    (32) expression -> expression . addOperator term
+    (25) relation -> . EQUAL
+    (26) relation -> . GT
+    (27) relation -> . GTE
+    (28) relation -> . LT
+    (29) relation -> . LTE
+    (33) addOperator -> . PLUS
+    (34) addOperator -> . MINUS
+
+    EQUAL           shift and go to state 69
+    GT              shift and go to state 70
+    GTE             shift and go to state 71
+    LT              shift and go to state 72
+    LTE             shift and go to state 73
+    PLUS            shift and go to state 45
+    MINUS           shift and go to state 46
+
+    relation                       shift and go to state 68
+    addOperator                    shift and go to state 58
+
+state 52
 
     (11) procedureDeclare -> PROCEDURE ID LPAREN parameter . RPAREN BEGIN block END SEMMICOLOM procedureDeclare
     (14) parameter -> parameter . COMMA factor
 
-    RPAREN          shift and go to state 72
-    COMMA           shift and go to state 73
+    RPAREN          shift and go to state 74
+    COMMA           shift and go to state 75
 
 
-state 52
+state 53
 
     (13) parameter -> factor .
 
@@ -796,7 +810,7 @@ state 52
     COMMA           reduce using rule 13 (parameter -> factor .)
 
 
-state 53
+state 54
 
     (15) parameter -> empty .
 
@@ -804,23 +818,23 @@ state 53
     COMMA           reduce using rule 15 (parameter -> empty .)
 
 
-state 54
+state 55
 
     (10) varDeclareList -> varDeclareList COMMA ID ASSIGN . NUMBER
 
-    NUMBER          shift and go to state 74
+    NUMBER          shift and go to state 76
 
 
-state 55
+state 56
 
     (16) statement -> CALL ID LPAREN parameter . RPAREN SEMMICOLOM statement
     (14) parameter -> parameter . COMMA factor
 
-    RPAREN          shift and go to state 75
-    COMMA           shift and go to state 73
+    RPAREN          shift and go to state 77
+    COMMA           shift and go to state 75
 
 
-state 56
+state 57
 
     (17) statement -> ID ASSIGN expression SEMMICOLOM . statement
     (16) statement -> . CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
@@ -828,238 +842,247 @@ state 56
     (18) statement -> . empty
     (19) statement -> . FOR NUMBER LOOPS statement END SEMMICOLOM statement
     (20) statement -> . CASE caseList ELSE statement END SEMMICOLOM statement
-    (41) empty -> .
+    (21) statement -> . ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (42) empty -> .
 
     CALL            shift and go to state 18
     ID              shift and go to state 19
     FOR             shift and go to state 21
     CASE            shift and go to state 22
-    $end            reduce using rule 41 (empty -> .)
-    END             reduce using rule 41 (empty -> .)
-    WHEN            reduce using rule 41 (empty -> .)
-    ELSE            reduce using rule 41 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
+    WHEN            reduce using rule 42 (empty -> .)
+    ELSE            reduce using rule 42 (empty -> .)
 
-    statement                      shift and go to state 76
+    statement                      shift and go to state 78
     empty                          shift and go to state 20
-
-state 57
-
-    (31) expression -> expression addOperator . term
-    (34) term -> . factor
-    (35) term -> . term multiOperator factor
-    (38) factor -> . ID
-    (39) factor -> . NUMBER
-    (40) factor -> . LPAREN expression RPAREN
-
-    ID              shift and go to state 38
-    NUMBER          shift and go to state 45
-    LPAREN          shift and go to state 46
-
-    term                           shift and go to state 77
-    factor                         shift and go to state 42
 
 state 58
 
-    (35) term -> term multiOperator . factor
-    (38) factor -> . ID
-    (39) factor -> . NUMBER
-    (40) factor -> . LPAREN expression RPAREN
+    (32) expression -> expression addOperator . term
+    (35) term -> . factor
+    (36) term -> . term multiOperator factor
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
 
     ID              shift and go to state 38
-    NUMBER          shift and go to state 45
-    LPAREN          shift and go to state 46
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
 
-    factor                         shift and go to state 78
+    term                           shift and go to state 79
+    factor                         shift and go to state 44
 
 state 59
 
-    (36) multiOperator -> TIMES .
+    (21) statement -> ID ASSIGN CALL ID . LPAREN parameter RPAREN SEMMICOLOM statement
 
-    ID              reduce using rule 36 (multiOperator -> TIMES .)
-    NUMBER          reduce using rule 36 (multiOperator -> TIMES .)
-    LPAREN          reduce using rule 36 (multiOperator -> TIMES .)
+    LPAREN          shift and go to state 80
 
 
 state 60
 
-    (37) multiOperator -> DIVIDE .
+    (41) factor -> LPAREN expression . RPAREN
+    (32) expression -> expression . addOperator term
+    (33) addOperator -> . PLUS
+    (34) addOperator -> . MINUS
 
-    ID              reduce using rule 37 (multiOperator -> DIVIDE .)
-    NUMBER          reduce using rule 37 (multiOperator -> DIVIDE .)
-    LPAREN          reduce using rule 37 (multiOperator -> DIVIDE .)
+    RPAREN          shift and go to state 81
+    PLUS            shift and go to state 45
+    MINUS           shift and go to state 46
 
+    addOperator                    shift and go to state 58
 
 state 61
 
-    (30) expression -> addOperator term .
-    (35) term -> term . multiOperator factor
-    (36) multiOperator -> . TIMES
-    (37) multiOperator -> . DIVIDE
+    (36) term -> term multiOperator . factor
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
 
-    SEMMICOLOM      reduce using rule 30 (expression -> addOperator term .)
-    PLUS            reduce using rule 30 (expression -> addOperator term .)
-    MINUS           reduce using rule 30 (expression -> addOperator term .)
-    EQUAL           reduce using rule 30 (expression -> addOperator term .)
-    GT              reduce using rule 30 (expression -> addOperator term .)
-    GTE             reduce using rule 30 (expression -> addOperator term .)
-    LT              reduce using rule 30 (expression -> addOperator term .)
-    LTE             reduce using rule 30 (expression -> addOperator term .)
-    RPAREN          reduce using rule 30 (expression -> addOperator term .)
-    THEN            reduce using rule 30 (expression -> addOperator term .)
-    TIMES           shift and go to state 59
-    DIVIDE          shift and go to state 60
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
 
-    multiOperator                  shift and go to state 58
+    factor                         shift and go to state 82
 
 state 62
 
-    (40) factor -> LPAREN expression . RPAREN
-    (31) expression -> expression . addOperator term
-    (32) addOperator -> . PLUS
-    (33) addOperator -> . MINUS
+    (37) multiOperator -> TIMES .
 
-    RPAREN          shift and go to state 79
-    PLUS            shift and go to state 43
-    MINUS           shift and go to state 44
+    ID              reduce using rule 37 (multiOperator -> TIMES .)
+    NUMBER          reduce using rule 37 (multiOperator -> TIMES .)
+    LPAREN          reduce using rule 37 (multiOperator -> TIMES .)
 
-    addOperator                    shift and go to state 57
 
 state 63
 
-    (19) statement -> FOR NUMBER LOOPS statement . END SEMMICOLOM statement
+    (38) multiOperator -> DIVIDE .
 
-    END             shift and go to state 80
+    ID              reduce using rule 38 (multiOperator -> DIVIDE .)
+    NUMBER          reduce using rule 38 (multiOperator -> DIVIDE .)
+    LPAREN          reduce using rule 38 (multiOperator -> DIVIDE .)
 
 
 state 64
 
-    (20) statement -> CASE caseList ELSE statement . END SEMMICOLOM statement
+    (31) expression -> addOperator term .
+    (36) term -> term . multiOperator factor
+    (37) multiOperator -> . TIMES
+    (38) multiOperator -> . DIVIDE
 
-    END             shift and go to state 81
+    SEMMICOLOM      reduce using rule 31 (expression -> addOperator term .)
+    PLUS            reduce using rule 31 (expression -> addOperator term .)
+    MINUS           reduce using rule 31 (expression -> addOperator term .)
+    EQUAL           reduce using rule 31 (expression -> addOperator term .)
+    GT              reduce using rule 31 (expression -> addOperator term .)
+    GTE             reduce using rule 31 (expression -> addOperator term .)
+    LT              reduce using rule 31 (expression -> addOperator term .)
+    LTE             reduce using rule 31 (expression -> addOperator term .)
+    RPAREN          reduce using rule 31 (expression -> addOperator term .)
+    THEN            reduce using rule 31 (expression -> addOperator term .)
+    TIMES           shift and go to state 62
+    DIVIDE          shift and go to state 63
 
+    multiOperator                  shift and go to state 61
 
 state 65
 
-    (21) caseList -> WHEN condition THEN . statement
-    (22) caseList -> WHEN condition THEN . statement caseList
+    (19) statement -> FOR NUMBER LOOPS statement . END SEMMICOLOM statement
+
+    END             shift and go to state 83
+
+
+state 66
+
+    (20) statement -> CASE caseList ELSE statement . END SEMMICOLOM statement
+
+    END             shift and go to state 84
+
+
+state 67
+
+    (22) caseList -> WHEN condition THEN . statement
+    (23) caseList -> WHEN condition THEN . statement caseList
     (16) statement -> . CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
     (17) statement -> . ID ASSIGN expression SEMMICOLOM statement
     (18) statement -> . empty
     (19) statement -> . FOR NUMBER LOOPS statement END SEMMICOLOM statement
     (20) statement -> . CASE caseList ELSE statement END SEMMICOLOM statement
-    (41) empty -> .
+    (21) statement -> . ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (42) empty -> .
 
     CALL            shift and go to state 18
     ID              shift and go to state 19
     FOR             shift and go to state 21
     CASE            shift and go to state 22
-    WHEN            reduce using rule 41 (empty -> .)
-    ELSE            reduce using rule 41 (empty -> .)
+    WHEN            reduce using rule 42 (empty -> .)
+    ELSE            reduce using rule 42 (empty -> .)
 
-    statement                      shift and go to state 82
+    statement                      shift and go to state 85
     empty                          shift and go to state 20
-
-state 66
-
-    (23) condition -> expression relation . expression
-    (29) expression -> . term
-    (30) expression -> . addOperator term
-    (31) expression -> . expression addOperator term
-    (34) term -> . factor
-    (35) term -> . term multiOperator factor
-    (32) addOperator -> . PLUS
-    (33) addOperator -> . MINUS
-    (38) factor -> . ID
-    (39) factor -> . NUMBER
-    (40) factor -> . LPAREN expression RPAREN
-
-    PLUS            shift and go to state 43
-    MINUS           shift and go to state 44
-    ID              shift and go to state 38
-    NUMBER          shift and go to state 45
-    LPAREN          shift and go to state 46
-
-    expression                     shift and go to state 83
-    term                           shift and go to state 40
-    addOperator                    shift and go to state 41
-    factor                         shift and go to state 42
-
-state 67
-
-    (24) relation -> EQUAL .
-
-    PLUS            reduce using rule 24 (relation -> EQUAL .)
-    MINUS           reduce using rule 24 (relation -> EQUAL .)
-    ID              reduce using rule 24 (relation -> EQUAL .)
-    NUMBER          reduce using rule 24 (relation -> EQUAL .)
-    LPAREN          reduce using rule 24 (relation -> EQUAL .)
-
 
 state 68
 
-    (25) relation -> GT .
+    (24) condition -> expression relation . expression
+    (30) expression -> . term
+    (31) expression -> . addOperator term
+    (32) expression -> . expression addOperator term
+    (35) term -> . factor
+    (36) term -> . term multiOperator factor
+    (33) addOperator -> . PLUS
+    (34) addOperator -> . MINUS
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
 
-    PLUS            reduce using rule 25 (relation -> GT .)
-    MINUS           reduce using rule 25 (relation -> GT .)
-    ID              reduce using rule 25 (relation -> GT .)
-    NUMBER          reduce using rule 25 (relation -> GT .)
-    LPAREN          reduce using rule 25 (relation -> GT .)
+    PLUS            shift and go to state 45
+    MINUS           shift and go to state 46
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
 
+    expression                     shift and go to state 86
+    term                           shift and go to state 42
+    addOperator                    shift and go to state 43
+    factor                         shift and go to state 44
 
 state 69
 
-    (26) relation -> GTE .
+    (25) relation -> EQUAL .
 
-    PLUS            reduce using rule 26 (relation -> GTE .)
-    MINUS           reduce using rule 26 (relation -> GTE .)
-    ID              reduce using rule 26 (relation -> GTE .)
-    NUMBER          reduce using rule 26 (relation -> GTE .)
-    LPAREN          reduce using rule 26 (relation -> GTE .)
+    PLUS            reduce using rule 25 (relation -> EQUAL .)
+    MINUS           reduce using rule 25 (relation -> EQUAL .)
+    ID              reduce using rule 25 (relation -> EQUAL .)
+    NUMBER          reduce using rule 25 (relation -> EQUAL .)
+    LPAREN          reduce using rule 25 (relation -> EQUAL .)
 
 
 state 70
 
-    (27) relation -> LT .
+    (26) relation -> GT .
 
-    PLUS            reduce using rule 27 (relation -> LT .)
-    MINUS           reduce using rule 27 (relation -> LT .)
-    ID              reduce using rule 27 (relation -> LT .)
-    NUMBER          reduce using rule 27 (relation -> LT .)
-    LPAREN          reduce using rule 27 (relation -> LT .)
+    PLUS            reduce using rule 26 (relation -> GT .)
+    MINUS           reduce using rule 26 (relation -> GT .)
+    ID              reduce using rule 26 (relation -> GT .)
+    NUMBER          reduce using rule 26 (relation -> GT .)
+    LPAREN          reduce using rule 26 (relation -> GT .)
 
 
 state 71
 
-    (28) relation -> LTE .
+    (27) relation -> GTE .
 
-    PLUS            reduce using rule 28 (relation -> LTE .)
-    MINUS           reduce using rule 28 (relation -> LTE .)
-    ID              reduce using rule 28 (relation -> LTE .)
-    NUMBER          reduce using rule 28 (relation -> LTE .)
-    LPAREN          reduce using rule 28 (relation -> LTE .)
+    PLUS            reduce using rule 27 (relation -> GTE .)
+    MINUS           reduce using rule 27 (relation -> GTE .)
+    ID              reduce using rule 27 (relation -> GTE .)
+    NUMBER          reduce using rule 27 (relation -> GTE .)
+    LPAREN          reduce using rule 27 (relation -> GTE .)
 
 
 state 72
 
-    (11) procedureDeclare -> PROCEDURE ID LPAREN parameter RPAREN . BEGIN block END SEMMICOLOM procedureDeclare
+    (28) relation -> LT .
 
-    BEGIN           shift and go to state 84
+    PLUS            reduce using rule 28 (relation -> LT .)
+    MINUS           reduce using rule 28 (relation -> LT .)
+    ID              reduce using rule 28 (relation -> LT .)
+    NUMBER          reduce using rule 28 (relation -> LT .)
+    LPAREN          reduce using rule 28 (relation -> LT .)
 
 
 state 73
 
-    (14) parameter -> parameter COMMA . factor
-    (38) factor -> . ID
-    (39) factor -> . NUMBER
-    (40) factor -> . LPAREN expression RPAREN
+    (29) relation -> LTE .
 
-    ID              shift and go to state 38
-    NUMBER          shift and go to state 45
-    LPAREN          shift and go to state 46
+    PLUS            reduce using rule 29 (relation -> LTE .)
+    MINUS           reduce using rule 29 (relation -> LTE .)
+    ID              reduce using rule 29 (relation -> LTE .)
+    NUMBER          reduce using rule 29 (relation -> LTE .)
+    LPAREN          reduce using rule 29 (relation -> LTE .)
 
-    factor                         shift and go to state 85
 
 state 74
+
+    (11) procedureDeclare -> PROCEDURE ID LPAREN parameter RPAREN . BEGIN block END SEMMICOLOM procedureDeclare
+
+    BEGIN           shift and go to state 87
+
+
+state 75
+
+    (14) parameter -> parameter COMMA . factor
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
+
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
+
+    factor                         shift and go to state 88
+
+state 76
 
     (10) varDeclareList -> varDeclareList COMMA ID ASSIGN NUMBER .
 
@@ -1067,14 +1090,14 @@ state 74
     COMMA           reduce using rule 10 (varDeclareList -> varDeclareList COMMA ID ASSIGN NUMBER .)
 
 
-state 75
+state 77
 
     (16) statement -> CALL ID LPAREN parameter RPAREN . SEMMICOLOM statement
 
-    SEMMICOLOM      shift and go to state 86
+    SEMMICOLOM      shift and go to state 89
 
 
-state 76
+state 78
 
     (17) statement -> ID ASSIGN expression SEMMICOLOM statement .
 
@@ -1084,125 +1107,146 @@ state 76
     ELSE            reduce using rule 17 (statement -> ID ASSIGN expression SEMMICOLOM statement .)
 
 
-state 77
-
-    (31) expression -> expression addOperator term .
-    (35) term -> term . multiOperator factor
-    (36) multiOperator -> . TIMES
-    (37) multiOperator -> . DIVIDE
-
-    SEMMICOLOM      reduce using rule 31 (expression -> expression addOperator term .)
-    PLUS            reduce using rule 31 (expression -> expression addOperator term .)
-    MINUS           reduce using rule 31 (expression -> expression addOperator term .)
-    EQUAL           reduce using rule 31 (expression -> expression addOperator term .)
-    GT              reduce using rule 31 (expression -> expression addOperator term .)
-    GTE             reduce using rule 31 (expression -> expression addOperator term .)
-    LT              reduce using rule 31 (expression -> expression addOperator term .)
-    LTE             reduce using rule 31 (expression -> expression addOperator term .)
-    RPAREN          reduce using rule 31 (expression -> expression addOperator term .)
-    THEN            reduce using rule 31 (expression -> expression addOperator term .)
-    TIMES           shift and go to state 59
-    DIVIDE          shift and go to state 60
-
-    multiOperator                  shift and go to state 58
-
-state 78
-
-    (35) term -> term multiOperator factor .
-
-    TIMES           reduce using rule 35 (term -> term multiOperator factor .)
-    DIVIDE          reduce using rule 35 (term -> term multiOperator factor .)
-    SEMMICOLOM      reduce using rule 35 (term -> term multiOperator factor .)
-    PLUS            reduce using rule 35 (term -> term multiOperator factor .)
-    MINUS           reduce using rule 35 (term -> term multiOperator factor .)
-    EQUAL           reduce using rule 35 (term -> term multiOperator factor .)
-    GT              reduce using rule 35 (term -> term multiOperator factor .)
-    GTE             reduce using rule 35 (term -> term multiOperator factor .)
-    LT              reduce using rule 35 (term -> term multiOperator factor .)
-    LTE             reduce using rule 35 (term -> term multiOperator factor .)
-    RPAREN          reduce using rule 35 (term -> term multiOperator factor .)
-    THEN            reduce using rule 35 (term -> term multiOperator factor .)
-
-
 state 79
 
-    (40) factor -> LPAREN expression RPAREN .
+    (32) expression -> expression addOperator term .
+    (36) term -> term . multiOperator factor
+    (37) multiOperator -> . TIMES
+    (38) multiOperator -> . DIVIDE
 
-    TIMES           reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    SEMMICOLOM      reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    PLUS            reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    EQUAL           reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    GT              reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    GTE             reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    LT              reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    LTE             reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    COMMA           reduce using rule 40 (factor -> LPAREN expression RPAREN .)
-    THEN            reduce using rule 40 (factor -> LPAREN expression RPAREN .)
+    SEMMICOLOM      reduce using rule 32 (expression -> expression addOperator term .)
+    PLUS            reduce using rule 32 (expression -> expression addOperator term .)
+    MINUS           reduce using rule 32 (expression -> expression addOperator term .)
+    EQUAL           reduce using rule 32 (expression -> expression addOperator term .)
+    GT              reduce using rule 32 (expression -> expression addOperator term .)
+    GTE             reduce using rule 32 (expression -> expression addOperator term .)
+    LT              reduce using rule 32 (expression -> expression addOperator term .)
+    LTE             reduce using rule 32 (expression -> expression addOperator term .)
+    RPAREN          reduce using rule 32 (expression -> expression addOperator term .)
+    THEN            reduce using rule 32 (expression -> expression addOperator term .)
+    TIMES           shift and go to state 62
+    DIVIDE          shift and go to state 63
 
+    multiOperator                  shift and go to state 61
 
 state 80
 
-    (19) statement -> FOR NUMBER LOOPS statement END . SEMMICOLOM statement
+    (21) statement -> ID ASSIGN CALL ID LPAREN . parameter RPAREN SEMMICOLOM statement
+    (13) parameter -> . factor
+    (14) parameter -> . parameter COMMA factor
+    (15) parameter -> . empty
+    (39) factor -> . ID
+    (40) factor -> . NUMBER
+    (41) factor -> . LPAREN expression RPAREN
+    (42) empty -> .
 
-    SEMMICOLOM      shift and go to state 87
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 47
+    LPAREN          shift and go to state 41
+    RPAREN          reduce using rule 42 (empty -> .)
+    COMMA           reduce using rule 42 (empty -> .)
 
+    parameter                      shift and go to state 90
+    factor                         shift and go to state 53
+    empty                          shift and go to state 54
 
 state 81
 
-    (20) statement -> CASE caseList ELSE statement END . SEMMICOLOM statement
+    (41) factor -> LPAREN expression RPAREN .
 
-    SEMMICOLOM      shift and go to state 88
+    TIMES           reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    SEMMICOLOM      reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    EQUAL           reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    GT              reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    GTE             reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    LT              reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    LTE             reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    COMMA           reduce using rule 41 (factor -> LPAREN expression RPAREN .)
+    THEN            reduce using rule 41 (factor -> LPAREN expression RPAREN .)
 
 
 state 82
 
-    (21) caseList -> WHEN condition THEN statement .
-    (22) caseList -> WHEN condition THEN statement . caseList
-    (21) caseList -> . WHEN condition THEN statement
-    (22) caseList -> . WHEN condition THEN statement caseList
+    (36) term -> term multiOperator factor .
 
-    ELSE            reduce using rule 21 (caseList -> WHEN condition THEN statement .)
-    WHEN            shift and go to state 32
+    TIMES           reduce using rule 36 (term -> term multiOperator factor .)
+    DIVIDE          reduce using rule 36 (term -> term multiOperator factor .)
+    SEMMICOLOM      reduce using rule 36 (term -> term multiOperator factor .)
+    PLUS            reduce using rule 36 (term -> term multiOperator factor .)
+    MINUS           reduce using rule 36 (term -> term multiOperator factor .)
+    EQUAL           reduce using rule 36 (term -> term multiOperator factor .)
+    GT              reduce using rule 36 (term -> term multiOperator factor .)
+    GTE             reduce using rule 36 (term -> term multiOperator factor .)
+    LT              reduce using rule 36 (term -> term multiOperator factor .)
+    LTE             reduce using rule 36 (term -> term multiOperator factor .)
+    RPAREN          reduce using rule 36 (term -> term multiOperator factor .)
+    THEN            reduce using rule 36 (term -> term multiOperator factor .)
 
-    caseList                       shift and go to state 89
 
 state 83
 
-    (23) condition -> expression relation expression .
-    (31) expression -> expression . addOperator term
-    (32) addOperator -> . PLUS
-    (33) addOperator -> . MINUS
+    (19) statement -> FOR NUMBER LOOPS statement END . SEMMICOLOM statement
 
-    THEN            reduce using rule 23 (condition -> expression relation expression .)
-    PLUS            shift and go to state 43
-    MINUS           shift and go to state 44
+    SEMMICOLOM      shift and go to state 91
 
-    addOperator                    shift and go to state 57
 
 state 84
+
+    (20) statement -> CASE caseList ELSE statement END . SEMMICOLOM statement
+
+    SEMMICOLOM      shift and go to state 92
+
+
+state 85
+
+    (22) caseList -> WHEN condition THEN statement .
+    (23) caseList -> WHEN condition THEN statement . caseList
+    (22) caseList -> . WHEN condition THEN statement
+    (23) caseList -> . WHEN condition THEN statement caseList
+
+    ELSE            reduce using rule 22 (caseList -> WHEN condition THEN statement .)
+    WHEN            shift and go to state 32
+
+    caseList                       shift and go to state 93
+
+state 86
+
+    (24) condition -> expression relation expression .
+    (32) expression -> expression . addOperator term
+    (33) addOperator -> . PLUS
+    (34) addOperator -> . MINUS
+
+    THEN            reduce using rule 24 (condition -> expression relation expression .)
+    PLUS            shift and go to state 45
+    MINUS           shift and go to state 46
+
+    addOperator                    shift and go to state 58
+
+state 87
 
     (11) procedureDeclare -> PROCEDURE ID LPAREN parameter RPAREN BEGIN . block END SEMMICOLOM procedureDeclare
     (2) block -> . varDeclare procedureDeclare statement
     (5) varDeclare -> . DECLARE varDeclareList SEMMICOLOM varDeclare
     (6) varDeclare -> . empty
-    (41) empty -> .
+    (42) empty -> .
 
     DECLARE         shift and go to state 8
-    PROCEDURE       reduce using rule 41 (empty -> .)
-    CALL            reduce using rule 41 (empty -> .)
-    ID              reduce using rule 41 (empty -> .)
-    FOR             reduce using rule 41 (empty -> .)
-    CASE            reduce using rule 41 (empty -> .)
-    END             reduce using rule 41 (empty -> .)
+    PROCEDURE       reduce using rule 42 (empty -> .)
+    CALL            reduce using rule 42 (empty -> .)
+    ID              reduce using rule 42 (empty -> .)
+    FOR             reduce using rule 42 (empty -> .)
+    CASE            reduce using rule 42 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
 
-    block                          shift and go to state 90
+    block                          shift and go to state 94
     varDeclare                     shift and go to state 7
     empty                          shift and go to state 9
 
-state 85
+state 88
 
     (14) parameter -> parameter COMMA factor .
 
@@ -1210,7 +1254,7 @@ state 85
     COMMA           reduce using rule 14 (parameter -> parameter COMMA factor .)
 
 
-state 86
+state 89
 
     (16) statement -> CALL ID LPAREN parameter RPAREN SEMMICOLOM . statement
     (16) statement -> . CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
@@ -1218,21 +1262,31 @@ state 86
     (18) statement -> . empty
     (19) statement -> . FOR NUMBER LOOPS statement END SEMMICOLOM statement
     (20) statement -> . CASE caseList ELSE statement END SEMMICOLOM statement
-    (41) empty -> .
+    (21) statement -> . ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (42) empty -> .
 
     CALL            shift and go to state 18
     ID              shift and go to state 19
     FOR             shift and go to state 21
     CASE            shift and go to state 22
-    $end            reduce using rule 41 (empty -> .)
-    END             reduce using rule 41 (empty -> .)
-    WHEN            reduce using rule 41 (empty -> .)
-    ELSE            reduce using rule 41 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
+    WHEN            reduce using rule 42 (empty -> .)
+    ELSE            reduce using rule 42 (empty -> .)
 
-    statement                      shift and go to state 91
+    statement                      shift and go to state 95
     empty                          shift and go to state 20
 
-state 87
+state 90
+
+    (21) statement -> ID ASSIGN CALL ID LPAREN parameter . RPAREN SEMMICOLOM statement
+    (14) parameter -> parameter . COMMA factor
+
+    RPAREN          shift and go to state 96
+    COMMA           shift and go to state 75
+
+
+state 91
 
     (19) statement -> FOR NUMBER LOOPS statement END SEMMICOLOM . statement
     (16) statement -> . CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
@@ -1240,21 +1294,22 @@ state 87
     (18) statement -> . empty
     (19) statement -> . FOR NUMBER LOOPS statement END SEMMICOLOM statement
     (20) statement -> . CASE caseList ELSE statement END SEMMICOLOM statement
-    (41) empty -> .
+    (21) statement -> . ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (42) empty -> .
 
     CALL            shift and go to state 18
     ID              shift and go to state 19
     FOR             shift and go to state 21
     CASE            shift and go to state 22
-    $end            reduce using rule 41 (empty -> .)
-    END             reduce using rule 41 (empty -> .)
-    WHEN            reduce using rule 41 (empty -> .)
-    ELSE            reduce using rule 41 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
+    WHEN            reduce using rule 42 (empty -> .)
+    ELSE            reduce using rule 42 (empty -> .)
 
-    statement                      shift and go to state 92
+    statement                      shift and go to state 97
     empty                          shift and go to state 20
 
-state 88
+state 92
 
     (20) statement -> CASE caseList ELSE statement END SEMMICOLOM . statement
     (16) statement -> . CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
@@ -1262,35 +1317,36 @@ state 88
     (18) statement -> . empty
     (19) statement -> . FOR NUMBER LOOPS statement END SEMMICOLOM statement
     (20) statement -> . CASE caseList ELSE statement END SEMMICOLOM statement
-    (41) empty -> .
+    (21) statement -> . ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (42) empty -> .
 
     CALL            shift and go to state 18
     ID              shift and go to state 19
     FOR             shift and go to state 21
     CASE            shift and go to state 22
-    $end            reduce using rule 41 (empty -> .)
-    END             reduce using rule 41 (empty -> .)
-    WHEN            reduce using rule 41 (empty -> .)
-    ELSE            reduce using rule 41 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
+    WHEN            reduce using rule 42 (empty -> .)
+    ELSE            reduce using rule 42 (empty -> .)
 
-    statement                      shift and go to state 93
+    statement                      shift and go to state 98
     empty                          shift and go to state 20
 
-state 89
+state 93
 
-    (22) caseList -> WHEN condition THEN statement caseList .
+    (23) caseList -> WHEN condition THEN statement caseList .
 
-    ELSE            reduce using rule 22 (caseList -> WHEN condition THEN statement caseList .)
+    ELSE            reduce using rule 23 (caseList -> WHEN condition THEN statement caseList .)
 
 
-state 90
+state 94
 
     (11) procedureDeclare -> PROCEDURE ID LPAREN parameter RPAREN BEGIN block . END SEMMICOLOM procedureDeclare
 
-    END             shift and go to state 94
+    END             shift and go to state 99
 
 
-state 91
+state 95
 
     (16) statement -> CALL ID LPAREN parameter RPAREN SEMMICOLOM statement .
 
@@ -1300,7 +1356,14 @@ state 91
     ELSE            reduce using rule 16 (statement -> CALL ID LPAREN parameter RPAREN SEMMICOLOM statement .)
 
 
-state 92
+state 96
+
+    (21) statement -> ID ASSIGN CALL ID LPAREN parameter RPAREN . SEMMICOLOM statement
+
+    SEMMICOLOM      shift and go to state 100
+
+
+state 97
 
     (19) statement -> FOR NUMBER LOOPS statement END SEMMICOLOM statement .
 
@@ -1310,7 +1373,7 @@ state 92
     ELSE            reduce using rule 19 (statement -> FOR NUMBER LOOPS statement END SEMMICOLOM statement .)
 
 
-state 93
+state 98
 
     (20) statement -> CASE caseList ELSE statement END SEMMICOLOM statement .
 
@@ -1320,32 +1383,65 @@ state 93
     ELSE            reduce using rule 20 (statement -> CASE caseList ELSE statement END SEMMICOLOM statement .)
 
 
-state 94
+state 99
 
     (11) procedureDeclare -> PROCEDURE ID LPAREN parameter RPAREN BEGIN block END . SEMMICOLOM procedureDeclare
 
-    SEMMICOLOM      shift and go to state 95
+    SEMMICOLOM      shift and go to state 101
 
 
-state 95
+state 100
+
+    (21) statement -> ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM . statement
+    (16) statement -> . CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (17) statement -> . ID ASSIGN expression SEMMICOLOM statement
+    (18) statement -> . empty
+    (19) statement -> . FOR NUMBER LOOPS statement END SEMMICOLOM statement
+    (20) statement -> . CASE caseList ELSE statement END SEMMICOLOM statement
+    (21) statement -> . ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement
+    (42) empty -> .
+
+    CALL            shift and go to state 18
+    ID              shift and go to state 19
+    FOR             shift and go to state 21
+    CASE            shift and go to state 22
+    $end            reduce using rule 42 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
+    WHEN            reduce using rule 42 (empty -> .)
+    ELSE            reduce using rule 42 (empty -> .)
+
+    statement                      shift and go to state 102
+    empty                          shift and go to state 20
+
+state 101
 
     (11) procedureDeclare -> PROCEDURE ID LPAREN parameter RPAREN BEGIN block END SEMMICOLOM . procedureDeclare
     (11) procedureDeclare -> . PROCEDURE ID LPAREN parameter RPAREN BEGIN block END SEMMICOLOM procedureDeclare
     (12) procedureDeclare -> . empty
-    (41) empty -> .
+    (42) empty -> .
 
     PROCEDURE       shift and go to state 12
-    CALL            reduce using rule 41 (empty -> .)
-    ID              reduce using rule 41 (empty -> .)
-    FOR             reduce using rule 41 (empty -> .)
-    CASE            reduce using rule 41 (empty -> .)
-    $end            reduce using rule 41 (empty -> .)
-    END             reduce using rule 41 (empty -> .)
+    CALL            reduce using rule 42 (empty -> .)
+    ID              reduce using rule 42 (empty -> .)
+    FOR             reduce using rule 42 (empty -> .)
+    CASE            reduce using rule 42 (empty -> .)
+    $end            reduce using rule 42 (empty -> .)
+    END             reduce using rule 42 (empty -> .)
 
-    procedureDeclare               shift and go to state 96
+    procedureDeclare               shift and go to state 103
     empty                          shift and go to state 13
 
-state 96
+state 102
+
+    (21) statement -> ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement .
+
+    $end            reduce using rule 21 (statement -> ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement .)
+    END             reduce using rule 21 (statement -> ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement .)
+    WHEN            reduce using rule 21 (statement -> ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement .)
+    ELSE            reduce using rule 21 (statement -> ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement .)
+
+
+state 103
 
     (11) procedureDeclare -> PROCEDURE ID LPAREN parameter RPAREN BEGIN block END SEMMICOLOM procedureDeclare .
 

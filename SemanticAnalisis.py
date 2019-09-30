@@ -126,6 +126,7 @@ class varDeclareList4(Node):
 
         return varDeclareList+"\n"+"<\t"*ident+self.id+"="+str(self.number)
 
+
 #****************************************************************PROCEDURE CLASS***********************************************************************#
 
 class procedureDeclare(Node):
@@ -225,6 +226,20 @@ class statement5(Node):
         statement2=self.statement2.translate(ident)
 
         return caseList+"\n"+"\t"*ident+"else:\n"+statement+"\n"+statement2
+
+class statement6(Node):
+    """statement : ID ASSIGN CALL ID LPAREN parameter RPAREN SEMMICOLOM statement"""
+    def __init__(self,id, id2,parameter,statement):
+        self.id=id
+        self.id2=id2
+        self.parameter=parameter
+        self.statement=statement
+
+    def translate(self,ident):
+
+        parameter=self.parameter.translate(0)
+        statement=self.statement.translate(ident)
+        return "\t"*ident+self.id+"="+self.id2+"("+parameter+")\n"+statement
 
 class caseList1(Node):
     """caseList : WHEN condition THEN statement SEMMICOLOM"""

@@ -8,7 +8,7 @@ declare pasos;
 procedure test(count)
     begin
         for 5 loops
-            call inc(count,2);
+            count=call inc(count,2);
             call print(count);
         end;
     end;

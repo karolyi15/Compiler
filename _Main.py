@@ -15,26 +15,26 @@ def writeFile(path,content):
 def runFile(path):
     os.system(path)
 
-def Object(pasos):
-    pass
+def object(pasos):
+    return (pasos)
 
-def Move(pasos):
-    pass
+def move(pasos):
+    return (pasos)
 
-def Vibration(n):
-    pass
+def vibration(n):
+    return (n)
 
-def Inclination(n):
-    pass
+def inclination(n):
+    return (n)
 
-def Temperature(n):
-    pass
+def temperature(n):
+    return (n)
 
-def Brightnes(n):
-    pass
+def brightnes(n):
+    return (n)
 
-def Sound(n):
-    pass
+def sound(n):
+    return n
 
 def inc(var, valor):
     var=var+valor
