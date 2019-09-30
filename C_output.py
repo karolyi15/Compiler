@@ -10,4 +10,8 @@ def test(count):
 		print(count)
 
 
-test(pasos)
+def main():
+	object(3)
+
+
+main()

@@ -15,9 +15,7 @@ procedure test(count)
 
 procedure main()
     begin
-        call test(pasos);
-        a= call object(20)
-        call publish(a)
+        call object(3);
     end;
 
 

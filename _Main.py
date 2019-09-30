@@ -1,5 +1,5 @@
 import os
-from connection import  *
+from connection import publish
 
 def readFile(path):
     file=open(path, "r")
@@ -17,25 +17,25 @@ def runFile(path):
     os.system(path)
 
 def object(pasos):
-    return (pasos,3)
+    publish(3,pasos)
 
 def move(pasos):
-    return (pasos)
+    publish(3,pasos)
 
 def vibration(n):
-    return (n)
+    publish(2,n)
 
 def inclination(n):
-    return (n)
+    publish(2,n)
 
 def temperature(n):
-    return (n)
+    publish(1,n)
 
 def brightnes(n):
-    return (n)
+    publish(1,n)
 
 def sound(n):
-    return (n)
+    publish(1,n)
 
 def inc(var, valor):
     var=var+valor

@@ -1,8 +1,8 @@
 import ply.yacc as yacc
 import sys
 from LexicAnalisis import tokens
-from _Main import *
 from SemanticAnalisis import *
+from _Main import *
 
 #error handling from shift/reduce
 #analising most right or most left
@@ -214,10 +214,14 @@ def p_error(p):
 
 #**************************************************************************OUTPUT********************************************************************************#
 
-parser= yacc.yacc()
-result=parser.parse(readFile("C_input.txt"))
 
+parser= yacc.yacc()
+
+#search syntactic errors
+result=parser.parse(readFile("C_input.txt"))
+#translate code
 writeFile("C_output.py",result.translate())
+#run file
 runFile("C_output.py")
 
 
