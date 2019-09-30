@@ -1,6 +1,7 @@
 #str with the new code
 newCode=""
-
+global main
+main=False
 #the parent class
 class Node():
     pass
@@ -14,6 +15,7 @@ class program(Node):
         self.importDeclare = importDeclare
         self.block=block
 
+
     def translate(self):
         global newCode
 
@@ -22,8 +24,11 @@ class program(Node):
 
         newCode+="#"+self.comment+"\nfrom _Main import *\n"
         newCode+=importDeclare+"\n"+block
+        if(main==True):
+            newCode+="\nmain()"
 
         return newCode
+
 
 #******************************************************************BLOCK CLASS*************************************************************************#
 
@@ -131,6 +136,9 @@ class procedureDeclare(Node):
         self.parameter=parameter
         self.block=block
         self.procedureDeclare=procedureDeclare
+        if(self.id=="main"):
+            global main
+            main=True
 
     def translate(self,ident):
 
@@ -157,7 +165,7 @@ class parameter2(Node):
 
     def translate(self,x):
         factor=self.factor.translate()
-        parameter = self.parameter.translate()
+        parameter = self.parameter.translate(0)
 
         return parameter+","+factor
 

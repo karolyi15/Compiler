@@ -3,38 +3,19 @@
 import SemanticAnalisis;
 import LexicAnalisis;
 
-declare var,var2,test=988;
-declare var3=90;
-declare var4=900;
+declare pasos;
 
-procedure test()
+procedure test(count)
     begin
-        declare var=0;
         for 5 loops
-            call print(var);
+            call inc(count,2);
+            call print(count);
         end;
     end;
 
-
-procedure test2()
+procedure main()
     begin
-        declare var2;
-        declare var8=100;
-        call test();
-        case
-            when
-                var==0
-            then
-                var=var+5*100;
-                call print(var);
-            when
-                var>0
-            then
-                var=0;
-                call print(var);
-            else
-                call print(var);
-        end;
+        call test(pasos);
     end;
 
 

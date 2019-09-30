@@ -3,30 +3,15 @@ from _Main import *
 import SemanticAnalisis
 import LexicAnalisis
 
-var2=0
-var=0
-test=988
-var3=90
-var4=900
-def test():
-	var=0
+pasos=1
+def test(count):
 	for x in range(5):
-		print(var)
+		count=inc(count,2)
+		print(count)
 
 
-def test2():
-	var2=0
-	var8=100
-	test()
-	if (var==0):
-		var=var+5*100
-		print(var)
-
-	if (var>0):
-		var=0
-		print(var)
-
-	else:
-		print(var)
+def main():
+	test(pasos)
 
 
+main()

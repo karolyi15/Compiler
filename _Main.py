@@ -36,10 +36,10 @@ def Brightnes(n):
 def Sound(n):
     pass
 
-def Inc(var, valor):
+def inc(var, valor):
     var=var+valor
     return var
 
-def Dec(var, valor):
+def dec(var, valor):
     var=var-valor
     return var

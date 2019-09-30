@@ -23,6 +23,7 @@ def p_program(p):
     """program : COMMENT importDeclare block"""
     p[0]=program(p[1],p[2],p[3])
 
+
 #*************************************************************************block productions*************************************************************************#
 
 def p_block(p):
@@ -214,8 +215,7 @@ parser= yacc.yacc()
 result=parser.parse(readFile("C_input.txt"))
 
 writeFile("C_output.py",result.translate())
-#runFile("C_output.py")
+runFile("C_output.py")
 
-#print(result)
 
 
