@@ -16,7 +16,7 @@ def runFile(path):
     os.system(path)
 
 def object(pasos):
-    return (pasos)
+    return (pasos,3)
 
 def move(pasos):
     return (pasos)

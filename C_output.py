@@ -10,8 +10,4 @@ def test(count):
 		print(count)
 
 
-def main():
-	test(pasos)
-
-
-main()
+test(pasos)
