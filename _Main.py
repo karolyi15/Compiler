@@ -34,7 +34,7 @@ def brightnes(n):
     return (n)
 
 def sound(n):
-    return n
+    return (n)
 
 def inc(var, valor):
     var=var+valor
