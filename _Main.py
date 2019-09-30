@@ -1,4 +1,5 @@
 import os
+from connection import  *
 
 def readFile(path):
     file=open(path, "r")
