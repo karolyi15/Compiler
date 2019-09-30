@@ -4,22 +4,22 @@ import SemanticAnalisis;
 import LexicAnalisis;
 
 declare var,var2,test=988;
-declare var3;
+declare var3=90;
 declare var4=900;
 
 procedure test()
     begin
-
+        declare var=0;
         for 5 loops
             call print(var);
         end;
-
     end;
 
 
 procedure test2()
     begin
         declare var2;
+        declare var8=100;
         call test();
         case
             when
