@@ -1,4 +1,5 @@
 import os
+import time
 from connection import publish
 
 def readFile(path):
@@ -44,3 +45,6 @@ def inc(var, valor):
 def dec(var, valor):
     var=var-valor
     return var
+
+def delay(t):
+    time.sleep(t)

@@ -1,17 +1,20 @@
-#//test1-este programa es de prueba para el compilador
+#//Virtual Reality-Rutina de prueba
 from _Main import *
-import SemanticAnalisis
-import LexicAnalisis
+import _Main
 
-pasos=0
-def test(count):
-	for x in range(5):
-		count=inc(count,2)
-		print(count)
-
+steps=0
+def virtualReality(steps):
+	steps=inc(steps,5)
+	move(steps)
+	delay(5)
+	steps=dec(steps,1)
+	object(steps)
+	delay(5)
+	temperature(2)
+	delay(5)
 
 def main():
-	object(3)
+	virtualReality(steps)
 
 
 main()

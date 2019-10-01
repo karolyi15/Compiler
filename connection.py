@@ -6,7 +6,7 @@ import os
 
 
 # HOST = '172.18.158.3'
-HOST = "192.168.8.103"
+HOST = "192.168.8.100"
 PORT = 1234
 client = mqtt.Client()
 #client.on_connect = on_connect()

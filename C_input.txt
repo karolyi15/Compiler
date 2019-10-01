@@ -1,21 +1,26 @@
-//test1-este programa es de prueba para el compilador
+//Virtual Reality-Rutina de prueba
+import _Main;
+declare steps;
 
-import SemanticAnalisis;
-import LexicAnalisis;
-
-declare pasos;
-
-procedure test(count)
+procedure virtualReality(steps)
     begin
-        for 5 loops
-            count=call inc(count,2);
-            call print(count);
-        end;
+
+        steps=call inc(steps,5);
+        call move(steps);
+        call delay(5);
+
+        steps=call dec(steps,1);
+        call object(steps);
+        call delay(5);
+
+        call temperature(2);
+        call delay(5);
+
     end;
 
 procedure main()
     begin
-        call object(3);
+        call virtualReality(steps);
     end;
 
 
